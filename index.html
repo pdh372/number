@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Trang Web Thần Số Học - Khám Phá Bản Thân</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				min-height: 100vh;
+				padding: 20px;
+			}
+
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+				background: rgba(255, 255, 255, 0.95);
+				border-radius: 20px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+			}
+
+			.header {
+				background: linear-gradient(45deg, #ff6b6b, #feca57);
+				color: white;
+				text-align: center;
+				padding: 40px 20px;
+			}
+
+			.header h1 {
+				font-size: 2.5em;
+				margin-bottom: 10px;
+				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+			}
+
+			.header p {
+				font-size: 1.2em;
+				opacity: 0.9;
+			}
+
+			.form-section {
+				padding: 40px;
+			}
+
+			.form-group {
+				margin-bottom: 25px;
+			}
+
+			.form-group label {
+				display: block;
+				margin-bottom: 8px;
+				font-weight: 600;
+				color: #333;
+				font-size: 1.1em;
+			}
+
+			.form-group input {
+				width: 100%;
+				padding: 15px;
+				border: 2px solid #e1e8ed;
+				border-radius: 10px;
+				font-size: 16px;
+				transition: all 0.3s ease;
+			}
+
+			.form-group input:focus {
+				outline: none;
+				border-color: #667eea;
+				box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+			}
+
+			.calculate-btn {
+				background: linear-gradient(45deg, #667eea, #764ba2);
+				color: white;
+				border: none;
+				padding: 15px 40px;
+				border-radius: 50px;
+				font-size: 18px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				width: 100%;
+			}
+
+			.calculate-btn:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+			}
+
+			.results {
+				margin-top: 40px;
+				display: none;
+			}
+
+			.result-card {
+				background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+				color: white;
+				padding: 30px;
+				border-radius: 15px;
+				margin-bottom: 20px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+			}
+
+			.result-card h3 {
+				font-size: 1.5em;
+				margin-bottom: 15px;
+				text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+			}
+
+			.number {
+				font-size: 3em;
+				font-weight: bold;
+				text-align: center;
+				margin: 20px 0;
+				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+			}
+
+			.description {
+				font-size: 1.1em;
+				line-height: 1.6;
+				opacity: 0.95;
+			}
+
+			.export-btn {
+				background: linear-gradient(45deg, #ff6b6b, #feca57);
+				color: white;
+				border: none;
+				padding: 12px 30px;
+				border-radius: 25px;
+				font-size: 16px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: transform 0.3s ease;
+				margin-top: 20px;
+			}
+
+			.export-btn:hover {
+				transform: translateY(-2px);
+			}
+
+			.footer {
+				text-align: center;
+				padding: 30px;
+				background: #f8f9fa;
+				color: #666;
+				font-style: italic;
+			}
+
+			@media (max-width: 768px) {
+				.header h1 {
+					font-size: 2em;
+				}
+				.form-section {
+					padding: 20px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<h1>🔮 Thần Số Học</h1>
+				<p>Khám phá bản thân thông qua sức mạnh của con số</p>
+			</div>
+
+			<div class="form-section">
+				<form id="numerologyForm">
+					<div class="form-group">
+						<label for="fullName">Họ và Tên đầy đủ:</label>
+						<input
+							type="text"
+							id="fullName"
+							placeholder="VD: Nguyễn Văn An"
+							required
+						/>
+					</div>
+
+					<div class="form-group">
+						<label for="birthDate">Ngày sinh:</label>
+						<input
+							type="date"
+							id="birthDate"
+							required
+						/>
+					</div>
+
+					<button
+						type="submit"
+						class="calculate-btn"
+					>
+						✨ Tính toán thần số học
+					</button>
+				</form>
+
+				<div
+					class="results"
+					id="results"
+				>
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#667eea,
+								#764ba2
+							);
+						"
+					>
+						<h3>🌟 Số Đường Đời (Life Path Number)</h3>
+						<div
+							class="number"
+							id="lifePathNumber"
+						></div>
+						<div
+							class="description"
+							id="lifePathDescription"
+						></div>
+					</div>
+
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#f093fb,
+								#f5576c
+							);
+						"
+					>
+						<h3>🎯 Số Định Mệnh (Destiny Number)</h3>
+						<div
+							class="number"
+							id="destinyNumber"
+						></div>
+						<div
+							class="description"
+							id="destinyDescription"
+						></div>
+					</div>
+
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#feca57,
+								#ff9ff3
+							);
+						"
+					>
+						<h3>💖 Số Khát Khao Tâm Hồn (Soul Urge Number)</h3>
+						<div
+							class="number"
+							id="soulUrgeNumber"
+						></div>
+						<div
+							class="description"
+							id="soulUrgeDescription"
+						></div>
+					</div>
+
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#48c6ef,
+								#6f86d6
+							);
+						"
+					>
+						<h3>🎭 Số Nhân Cách (Personality Number)</h3>
+						<div
+							class="number"
+							id="personalityNumber"
+						></div>
+						<div
+							class="description"
+							id="personalityDescription"
+						></div>
+					</div>
+
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#ff9a56,
+								#ffad56
+							);
+						"
+					>
+						<h3>🎂 Số Ngày Sinh (Birthday Number)</h3>
+						<div
+							class="number"
+							id="birthdayNumber"
+						></div>
+						<div
+							class="description"
+							id="birthdayDescription"
+						></div>
+					</div>
+
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#a8e6cf,
+								#7fcdcd
+							);
+						"
+					>
+						<h3>🌱 Số Thái Độ (Attitude Number)</h3>
+						<div
+							class="number"
+							id="attitudeNumber"
+						></div>
+						<div
+							class="description"
+							id="attitudeDescription"
+						></div>
+					</div>
+
+					<div
+						class="result-card"
+						style="
+							background: linear-gradient(
+								135deg,
+								#ff6b9d,
+								#c44569
+							);
+						"
+					>
+						<h3>🌸 Số Trưởng Thành (Maturity Number)</h3>
+						<div
+							class="number"
+							id="maturityNumber"
+						></div>
+						<div
+							class="description"
+							id="maturityDescription"
+						></div>
+					</div>
+
+					<button
+						class="export-btn"
+						onclick="exportToPDF()"
+					>
+						📄 Xuất PDF
+					</button>
+
+					<!-- Phần công thức tính toán (chỉ hiển thị trên web, không export PDF) -->
+					<div
+						class="formula-section"
+						id="formulaSection"
+						style="
+							display: block;
+							margin-top: 30px;
+							padding: 25px;
+							background: #f8f9fa;
+							border-radius: 15px;
+							border-left: 5px solid #667eea;
+						"
+					>
+						<h3
+							style="
+								color: #667eea;
+								margin-bottom: 20px;
+								display: flex;
+								align-items: center;
+							"
+						>
+							🔢 Chi Tiết Công Thức Tính Toán
+							<span
+								style="
+									margin-left: 10px;
+									font-size: 0.8em;
+									color: #666;
+									font-weight: normal;
+								"
+								>(để kiểm tra)</span
+							>
+						</h3>
+
+						<div id="calculationDetails"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer">
+				"Con số không chỉ là ký hiệu, mà còn là chìa khóa mở ra những bí
+				mật của cuộc sống"
+			</div>
+		</div>
+
+		<script>
+			// Bảng giá trị cho các chữ cái theo hướng dẫn cụ thể
+			const letterValues = {
+				A: 1,
+				B: 2,
+				C: 3,
+				D: 4,
+				E: 5,
+				F: 6,
+				G: 7,
+				H: 8,
+				I: 9,
+				J: 1,
+				K: 2,
+				L: 3,
+				M: 4,
+				N: 5,
+				O: 6,
+				P: 7,
+				Q: 8,
+				R: 9,
+				S: 1,
+				T: 2,
+				U: 3,
+				V: 4,
+				W: 5,
+				X: 6,
+				Y: 7,
+				Z: 8,
+			};
+
+			const baseVowels = ['A', 'E', 'I', 'O', 'U'];
+
+			// Hàm kiểm tra Y có phải nguyên âm không
+			function isYVowel(name, index) {
+				const upperName = name.toUpperCase();
+				const prevChar = index > 0 ? upperName[index - 1] : '';
+				const nextChar =
+					index < upperName.length - 1 ? upperName[index + 1] : '';
+
+				// Nếu đứng trước hoặc sau Y là nguyên âm thì Y là phụ âm
+				if (
+					baseVowels.includes(prevChar) ||
+					baseVowels.includes(nextChar)
+				) {
+					return false; // Y là phụ âm
+				}
+
+				return true; // Y là nguyên âm
+			}
+
+			// Hàm kiểm tra có phải nguyên âm
+			function isVowel(letter, name, index) {
+				if (baseVowels.includes(letter)) {
+					return true;
+				}
+				if (letter === 'Y') {
+					return isYVowel(name, index);
+				}
+				return false;
+			}
+
+			// Mô tả chi tiết cho từng con số
+			const descriptions = {
+				lifePathDescriptions: {
+					1: 'Bạn là người lãnh đạo bẩm sinh với tinh thần độc lập mạnh mẽ. Bạn có khả năng tiên phong, khởi xướng những ý tưởng mới và dẫn dắt người khác. Cuộc đời bạn hướng tới việc phát triển bản thân và đạt được thành công thông qua nỗ lực cá nhân.',
+					2: 'Bạn là người hòa hợp, hợp tác và có khả năng ngoại giao tuyệt vời. Bạn thích làm việc nhóm, tạo ra sự cân bằng và hòa bình. Cuộc đời bạn xoay quanh việc xây dựng mối quan hệ và hỗ trợ người khác.',
+					3: 'Bạn là người sáng tạo, năng động và có khiếu nghệ thuật. Bạn có khả năng giao tiếp tốt, lạc quan và mang lại niềm vui cho người khác. Cuộc đời bạn hướng tới việc thể hiện bản thân qua nghệ thuật và sáng tạo.',
+					4: 'Bạn là người thực tế, chăm chỉ và có tính kỷ luật cao. Bạn thích xây dựng những nền tảng vững chắc và làm việc một cách có hệ thống. Cuộc đời bạn hướng tới việc tạo ra sự ổn định và an toàn.',
+					5: 'Bạn là người tự do, phiêu lưu và thích khám phá. Bạn cần sự đa dạng, thay đổi và không thích bị ràng buộc. Cuộc đời bạn là một hành trình khám phá những điều mới mẻ và trải nghiệm đa dạng.',
+					6: 'Bạn là người có trách nhiệm, yêu thương và quan tâm đến gia đình. Bạn có bản năng chăm sóc và bảo vệ những người thân yêu. Cuộc đời bạn xoay quanh việc phục vụ và chăm sóc người khác.',
+					7: 'Bạn là người trí tuệ, thích tìm hiểu và có khuynh hướng tâm linh. Bạn cần thời gian một mình để suy ngẫm và khám phá những bí ẩn của cuộc sống. Cuộc đời bạn hướng tới việc tìm kiếm sự hiểu biết sâu sắc.',
+					8: 'Bạn là người có tham vọng, thích quyền lực và thành công về mặt vật chất. Bạn có khả năng quản lý và điều hành tốt. Cuộc đời bạn hướng tới việc đạt được thành công trong kinh doanh và tài chính.',
+					9: 'Bạn là người nhân đạo, bao dung và có tầm nhìn rộng lớn. Bạn quan tâm đến lợi ích chung và muốn cống hiến cho xã hội. Cuộc đời bạn hướng tới việc phục vụ nhân loại và tạo ra những thay đổi tích cực.',
+					11: 'Bạn có trực giác mạnh mẽ và khả năng truyền cảm hứng cho người khác. Đây là con số thầy, bạn có sứ mệnh nâng cao ý thức của con người và mang ánh sáng tâm linh đến thế giới.',
+					22: 'Bạn có khả năng biến ước mơ thành hiện thực trên quy mô lớn. Bạn là người xây dựng, có thể tạo ra những công trình vĩ đại mang lại lợi ích cho nhiều người.',
+					33: 'Bạn là thầy giáo tối thượng, có khả năng chữa lành và yêu thương vô điều kiện. Bạn có sứ mệnh nâng đỡ và chữa lành cho nhân loại thông qua tình yêu và lòng từ bi.',
+				},
+				destinyDescriptions: {
+					1: 'Số định mệnh 1 cho thấy bạn sinh ra để làm lãnh đạo. Bạn có khả năng khởi xướng, đi tiên phong và tạo ra những thay đổi tích cực. Hãy phát triển sự tự tin và độc lập của mình.',
+					2: 'Số định mệnh 2 cho thấy bạn sinh ra để hợp tác và hỗ trợ. Bạn có khả năng làm việc nhóm xuất sắc và tạo ra sự hòa hợp. Hãy phát triển khả năng ngoại giao và lắng nghe của mình.',
+					3: 'Số định mệnh 3 cho thấy bạn sinh ra để sáng tạo và truyền cảm hứng. Bạn có tài năng nghệ thuật và giao tiếp. Hãy phát triển khả năng thể hiện bản thân một cách sáng tạo.',
+					4: 'Số định mệnh 4 cho thấy bạn sinh ra để xây dựng và tổ chức. Bạn có khả năng tạo ra những nền tảng vững chắc. Hãy phát triển tính kỷ luật và kiên nhẫn của mình.',
+					5: 'Số định mệnh 5 cho thấy bạn sinh ra để khám phá và thay đổi. Bạn mang lại sự đa dạng và tự do. Hãy phát triển khả năng thích nghi và tinh thần phiêu lưu của mình.',
+					6: 'Số định mệnh 6 cho thấy bạn sinh ra để chăm sóc và nuôi dưỡng. Bạn có trái tim ấm áp và có trách nhiệm với gia đình. Hãy phát triển lòng từ bi và khả năng chữa lành của mình.',
+					7: 'Số định mệnh 7 cho thấy bạn sinh ra để tìm kiếm sự thật và hiểu biết. Bạn có khả năng nghiên cứu và tâm linh sâu sắc. Hãy phát triển trí tuệ và trực giác của mình.',
+					8: 'Số định mệnh 8 cho thấy bạn sinh ra để đạt được thành công vật chất. Bạn có khả năng quản lý và kinh doanh. Hãy phát triển tầm nhìn kinh doanh và khả năng lãnh đạo của mình.',
+					9: 'Số định mệnh 9 cho thấy bạn sinh ra để phục vụ nhân loại. Bạn có tầm nhìn rộng lớn và lòng nhân ái. Hãy phát triển tinh thần nhân đạo và khả năng cống hiến của mình.',
+					11: 'Số định mệnh 11 cho thấy bạn có sứ mệnh tâm linh cao cả. Bạn là người truyền cảm hứng và nâng cao ý thức. Hãy phát triển trực giác và khả năng chữa lành tâm linh.',
+					22: 'Số định mệnh 22 cho thấy bạn có khả năng tạo ra những thay đổi lớn lao. Bạn có thể xây dựng những dự án mang tầm quốc tế. Hãy phát triển tầm nhìn và khả năng thực hiện.',
+					33: 'Số định mệnh 33 cho thấy bạn có sứ mệnh yêu thương và chữa lành. Bạn là thầy giáo của tình yêu vô điều kiện. Hãy phát triển lòng từ bi và khả năng chữa lành cho thế giới.',
+				},
+				soulUrgeDescriptions: {
+					1: 'Trong sâu thẳm, bạn khát khao được lãnh đạo và độc lập. Bạn muốn được công nhận như một người tiên phong và có ảnh hưởng. Hãy theo đuổi những mục tiêu mà bạn thực sự đam mê.',
+					2: 'Trong sâu thẳm, bạn khát khao hòa bình và sự kết nối. Bạn muốn được yêu thương và tạo ra sự hài hòa xung quanh mình. Hãy tìm kiếm những mối quan hệ sâu sắc và ý nghĩa.',
+					3: 'Trong sâu thẳm, bạn khát khao được thể hiện bản thân sáng tạo. Bạn muốn mang lại niềm vui và cảm hứng cho người khác. Hãy theo đuổi những hoạt động nghệ thuật và sáng tạo.',
+					4: 'Trong sâu thẳm, bạn khát khao sự ổn định và an toàn. Bạn muốn xây dựng một nền tảng vững chắc cho cuộc sống. Hãy tập trung vào việc tạo ra trật tự và cấu trúc.',
+					5: 'Trong sâu thẳm, bạn khát khao tự do và phiêu lưu. Bạn muốn khám phá thế giới và trải nghiệm những điều mới mẻ. Hãy cho phép bản thân được du lịch và khám phá.',
+					6: 'Trong sâu thẳm, bạn khát khao được chăm sóc và nuôi dưỡng người khác. Bạn muốn tạo ra một môi trường ấm áp và yêu thương. Hãy dành thời gian cho gia đình và những người thân yêu.',
+					7: 'Trong sâu thẳm, bạn khát khao hiểu biết và sự thật. Bạn muốn khám phá những bí ẩn của cuộc sống và vũ trụ. Hãy dành thời gian cho việc học hỏi và tìm hiểu tâm linh.',
+					8: 'Trong sâu thẳm, bạn khát khao thành công và công nhận. Bạn muốn đạt được địa vị và ảnh hưởng trong xã hội. Hãy theo đuổi những mục tiêu kinh doanh và tài chính của mình.',
+					9: 'Trong sâu thẳm, bạn khát khao cống hiến cho nhân loại. Bạn muốn tạo ra sự khác biệt tích cực trên thế giới. Hãy tham gia vào những hoạt động từ thiện và xã hội.',
+					11: 'Trong sâu thẳm, bạn khát khao kết nối với điều thiêng liêng. Bạn muốn truyền cảm hứng tâm linh cho người khác. Hãy phát triển khả năng trực giác và tâm linh của mình.',
+					22: 'Trong sâu thẳm, bạn khát khao tạo ra những thành tựu vĩ đại. Bạn muốn để lại dấu ấn lớn lao cho thế giới. Hãy theo đuổi những dự án có tầm ảnh hưởng rộng lớn.',
+					33: 'Trong sâu thẳm, bạn khát khao yêu thương và chữa lành. Bạn muốn mang tình yêu vô điều kiện đến với mọi người. Hãy phát triển lòng từ bi và khả năng chữa lành của mình.',
+				},
+				personalityDescriptions: {
+					1: 'Người khác nhìn bạn như một người lãnh đạo tự tin và quyết đoán. Bạn toát lên vẻ độc lập và mạnh mẽ, khiến người khác tin tưởng và muốn theo bạn. Bạn có khí chất của một người tiên phong.',
+					2: 'Người khác nhìn bạn như một người hòa đồng và dễ gần. Bạn toát lên vẻ nhẹ nhàng và thân thiện, khiến mọi người cảm thấy thoải mái khi ở bên bạn. Bạn có khí chất của một người hòa giải.',
+					3: 'Người khác nhìn bạn như một người vui vẻ và sáng tạo. Bạn toát lên vẻ năng động và hấp dẫn, khiến mọi người muốn ở gần bạn để cảm nhận năng lượng tích cực. Bạn có khí chất của một nghệ sĩ.',
+					4: 'Người khác nhìn bạn như một người đáng tin cậy và thực tế. Bạn toát lên vẻ ổn định và có tổ chức, khiến mọi người tin tưởng vào khả năng của bạn. Bạn có khí chất của một người xây dựng.',
+					5: 'Người khác nhìn bạn như một người tự do và thú vị. Bạn toát lên vẻ năng động và không thể đoán trước, khiến mọi người tò mò về những gì bạn sẽ làm tiếp theo. Bạn có khí chất của một nhà thám hiểm.',
+					6: 'Người khác nhìn bạn như một người ấm áp và quan tâm. Bạn toát lên vẻ chăm sóc và bảo vệ, khiến mọi người cảm thấy an toàn và được yêu thương khi ở bên bạn. Bạn có khí chất của một người mẹ.',
+					7: 'Người khác nhìn bạn như một người bí ẩn và thông thái. Bạn toát lên vẻ sâu sắc và trầm tĩnh, khiến mọi người tôn trọng và muốn tìm hiểu về bạn. Bạn có khí chất của một nhà hiền triết.',
+					8: 'Người khác nhìn bạn như một người thành công và quyền lực. Bạn toát lên vẻ chuyên nghiệp và có uy quyền, khiến mọi người kính trọng và tin tưởng vào khả năng lãnh đạo của bạn. Bạn có khí chất của một CEO.',
+					9: 'Người khác nhìn bạn như một người bao dung và hiểu biết. Bạn toát lên vẻ trí tuệ và lòng từ bi, khiến mọi người cảm thấy được hiểu và chấp nhận. Bạn có khí chất của một người thầy.',
+					11: 'Người khác nhìn bạn như một người đặc biệt và truyền cảm hứng. Bạn toát lên vẻ tâm linh và chiều sâu, khiến mọi người cảm thấy được nâng đỡ về mặt tinh thần khi ở gần bạn.',
+					22: 'Người khác nhìn bạn như một người có tầm nhìn và khả năng thực hiện lớn lao. Bạn toát lên vẻ của một người có thể tạo ra những thay đổi có ý nghĩa cho thế giới.',
+					33: 'Người khác nhìn bạn như một người chữa lành và yêu thương. Bạn toát lên vẻ từ bi và sự chấp nhận vô điều kiện, khiến mọi người cảm thấy được chữa lành khi ở gần bạn.',
+				},
+				birthdayDescriptions: {
+					1: 'Ngày sinh 1 mang năng lượng lãnh đạo. Bạn có tinh thần độc lập, sáng tạo và thích khởi xướng. Bạn là người tiên phong và có khả năng dẫn dắt người khác.',
+					2: 'Ngày sinh 2 mang năng lượng hợp tác. Bạn có khả năng làm việc nhóm xuất sắc, nhạy cảm với cảm xúc người khác và thích hòa giải.',
+					3: 'Ngày sinh 3 mang năng lượng sáng tạo. Bạn có tài năng nghệ thuật, giao tiếp tốt và luôn tràn đầy năng lượng tích cực.',
+					4: 'Ngày sinh 4 mang năng lượng ổn định. Bạn thực tế, chăm chỉ, có tính kỷ luật cao và thích xây dựng nền tảng vững chắc.',
+					5: 'Ngày sinh 5 mang năng lượng tự do. Bạn thích khám phá, phiêu lưu, thay đổi và không muốn bị ràng buộc.',
+					6: 'Ngày sinh 6 mang năng lượng chăm sóc. Bạn có bản năng bảo vệ, yêu thương gia đình và quan tâm đến cộng đồng.',
+					7: 'Ngày sinh 7 mang năng lượng tâm linh. Bạn thích tìm hiểu, nghiên cứu và khám phá những bí ẩn của cuộc sống.',
+					8: 'Ngày sinh 8 mang năng lượng thành công. Bạn có tham vọng lớn, khả năng quản lý tốt và hướng tới thành tựu vật chất.',
+					9: 'Ngày sinh 9 mang năng lượng nhân đạo. Bạn có tầm nhìn rộng, lòng từ bi và muốn cống hiến cho xã hội.',
+					10: 'Ngày sinh 10 mang năng lượng lãnh đạo sáng tạo. Bạn kết hợp sự độc lập với khả năng sáng tạo độc đáo.',
+					11: 'Ngày sinh 11 mang năng lượng trực giác mạnh. Bạn có khả năng truyền cảm hứng và kết nối với điều thiêng liêng.',
+					12: 'Ngày sinh 12 mang năng lượng sáng tạo hợp tác. Bạn có thể kết hợp tài năng cá nhân với khả năng làm việc nhóm.',
+					13: 'Ngày sinh 13 mang năng lượng sáng tạo thực tế. Bạn có khả năng biến ý tưởng thành hiện thực thông qua công việc chăm chỉ.',
+					14: 'Ngày sinh 14 mang năng lượng tự do có kỷ luật. Bạn cần sự đa dạng nhưng vẫn có thể tổ chức và quản lý tốt.',
+					15: 'Ngày sinh 15 mang năng lượng chăm sóc linh hoạt. Bạn quan tâm đến gia đình nhưng cũng cần không gian cá nhân.',
+					16: 'Ngày sinh 16 mang năng lượng tâm linh trực giác. Bạn có khả năng nhìn thấu bản chất và tìm hiểu ý nghĩa sâu xa.',
+					17: 'Ngày sinh 17 mang năng lượng thành công tâm linh. Bạn có thể đạt được thành tựu vật chất mà vẫn giữ được giá trị tinh thần.',
+					18: 'Ngày sinh 18 mang năng lượng nhân đạo thực tế. Bạn muốn giúp đỡ người khác thông qua các hành động cụ thể.',
+					19: 'Ngày sinh 19 mang năng lượng lãnh đạo độc lập. Bạn có khả năng dẫn dắt mà vẫn giữ được cá tính riêng.',
+					20: 'Ngày sinh 20 mang năng lượng hợp tác nhạy cảm. Bạn có khả năng cảm nhận và hòa hợp với năng lượng xung quanh.',
+					21: 'Ngày sinh 21 mang năng lượng sáng tạo hợp tác. Bạn có thể tạo ra những điều đẹp đẽ khi làm việc với người khác.',
+					22: 'Ngày sinh 22 mang năng lượng Master Builder. Bạn có khả năng tạo ra những thành tựu lớn lao có tầm ảnh hưởng rộng rãi.',
+					23: 'Ngày sinh 23 mang năng lượng giao tiếp linh hoạt. Bạn có khả năng truyền đạt ý tưởng một cách sinh động và thuyết phục.',
+					24: 'Ngày sinh 24 mang năng lượng xây dựng gia đình. Bạn có khả năng tạo ra môi trường ấm áp và ổn định cho những người thân yêu.',
+					25: 'Ngày sinh 25 mang năng lượng tìm tòi trực giác. Bạn có khả năng khám phá và hiểu biết thông qua trực giác mạnh mẽ.',
+					26: 'Ngày sinh 26 mang năng lượng kinh doanh nhân văn. Bạn có thể thành công trong kinh doanh mà vẫn quan tâm đến con người.',
+					27: 'Ngày sinh 27 mang năng lượng giáo dục nhân đạo. Bạn có khả năng dạy dỗ và hướng dẫn người khác một cách từ bi.',
+					28: 'Ngày sinh 28 mang năng lượng lãnh đạo cân bằng. Bạn có thể lãnh đạo hiệu quả mà vẫn quan tâm đến nhu cầu của mọi người.',
+					29: 'Ngày sinh 29 mang năng lượng trực giác nhân đạo. Bạn có khả năng cảm nhận và giúp đỡ người khác thông qua trực giác sâu sắc.',
+					30: 'Ngày sinh 30 mang năng lượng sáng tạo vui vẻ. Bạn có khả năng mang lại niềm vui và sự sáng tạo cho cuộc sống.',
+					31: 'Ngày sinh 31 mang năng lượng sáng tạo thực tế. Bạn có khả năng biến những ý tưởng sáng tạo thành hiện thực.',
+				},
+				attitudeDescriptions: {
+					1: 'Thái độ số 1: Bạn tiếp cận cuộc sống với tinh thần lãnh đạo và độc lập. Bạn thích làm chủ tình hình và không ngại đối mặt với thử thách.',
+					2: 'Thái độ số 2: Bạn tiếp cận cuộc sống với tinh thần hợp tác và nhạy cảm. Bạn thích làm việc cùng người khác và tạo ra sự hòa hợp.',
+					3: 'Thái độ số 3: Bạn tiếp cận cuộc sống với tinh thần sáng tạo và lạc quan. Bạn luôn tìm cách làm cho mọi thứ trở nên thú vị và sinh động.',
+					4: 'Thái độ số 4: Bạn tiếp cận cuộc sống với tinh thần thực tế và có tổ chức. Bạn thích lập kế hoạch chi tiết và làm việc một cách có hệ thống.',
+					5: 'Thái độ số 5: Bạn tiếp cận cuộc sống với tinh thần tự do và phiêu lưu. Bạn thích khám phá những điều mới mẻ và không muốn bị ràng buộc.',
+					6: 'Thái độ số 6: Bạn tiếp cận cuộc sống với tinh thần chăm sóc và trách nhiệm. Bạn luôn quan tâm đến gia đình và cộng đồng xung quanh.',
+					7: 'Thái độ số 7: Bạn tiếp cận cuộc sống với tinh thần tìm tòi và tâm linh. Bạn thích suy ngẫm sâu sắc về ý nghĩa của mọi sự việc.',
+					8: 'Thái độ số 8: Bạn tiếp cận cuộc sống với tinh thần thành công và quyết đoán. Bạn hướng tới các mục tiêu lớn và không ngại chấp nhận rủi ro.',
+					9: 'Thái độ số 9: Bạn tiếp cận cuộc sống với tinh thần nhân đạo và bao dung. Bạn quan tâm đến lợi ích chung và muốn cống hiến cho xã hội.',
+				},
+				maturityDescriptions: {
+					1: 'Số Trưởng Thành 1: Trong nửa đời sau, bạn sẽ phát triển khả năng lãnh đạo mạnh mẽ hơn. Bạn trở nên độc lập, tự tin và có khả năng khởi xướng những dự án mới. Đây là thời kỳ bạn thực sự trở thành người tiên phong.',
+					2: 'Số Trưởng Thành 2: Trong nửa đời sau, bạn sẽ phát triển khả năng hợp tác và cân bằng. Bạn trở nên nhạy cảm hơn với nhu cầu của người khác và có khả năng xây dựng những mối quan hệ sâu sắc, ý nghĩa.',
+					3: 'Số Trưởng Thành 3: Trong nửa đời sau, bạn sẽ phát triển khả năng sáng tạo và giao tiếp. Bạn có thể trở thành người truyền cảm hứng, nghệ sĩ hoặc diễn giả tài ba, mang lại niềm vui cho nhiều người.',
+					4: 'Số Trưởng Thành 4: Trong nửa đời sau, bạn sẽ phát triển khả năng xây dựng và tổ chức. Bạn trở thành người đáng tin cậy, có thể tạo ra những nền tảng vững chắc cho bản thân và người khác.',
+					5: 'Số Trưởng Thành 5: Trong nửa đời sau, bạn sẽ phát triển khả năng thích ứng và khám phá. Bạn có thể trở thành người du lịch, nhà thám hiểm hoặc người đem lại những thay đổi tích cực cho xã hội.',
+					6: 'Số Trưởng Thành 6: Trong nửa đời sau, bạn sẽ phát triển khả năng chăm sóc và nuôi dưỡng. Bạn trở thành người cố vấn, thầy giáo hoặc người chăm sóc, mang lại sự ấm áp cho cộng đồng.',
+					7: 'Số Trưởng Thành 7: Trong nửa đời sau, bạn sẽ phát triển khả năng tâm linh và trí tuệ. Bạn có thể trở thành nhà nghiên cứu, triết gia hoặc người dẫn dắt tâm linh, tìm kiếm những sự thật sâu xa.',
+					8: 'Số Trưởng Thành 8: Trong nửa đời sau, bạn sẽ phát triển khả năng quản lý và kinh doanh. Bạn có thể đạt được thành công lớn về mặt vật chất và trở thành người có ảnh hưởng trong xã hội.',
+					9: 'Số Trưởng Thành 9: Trong nửa đời sau, bạn sẽ phát triển khả năng phục vụ nhân loại. Bạn trở thành người có tầm nhìn toàn cầu, có thể cống hiến cho những mục tiêu cao cả và tạo ra tác động tích cực rộng lớn.',
+					11: 'Số Trưởng Thành 11: Trong nửa đời sau, bạn sẽ phát triển khả năng truyền cảm hứng tâm linh. Bạn trở thành người thầy, người chữa lành hoặc người đem ánh sáng tâm linh đến cho nhiều người.',
+					22: 'Số Trưởng Thành 22: Trong nửa đời sau, bạn sẽ phát triển khả năng xây dựng những dự án vĩ đại. Bạn có thể tạo ra những thay đổi có tầm ảnh hưởng quốc tế và để lại di sản lớn lao cho thế giới.',
+					33: 'Số Trưởng Thành 33: Trong nửa đời sau, bạn sẽ phát triển khả năng yêu thương và chữa lành vô điều kiện. Bạn trở thành người thầy của tình yêu, có thể chữa lành tâm hồn của nhiều người thông qua lòng từ bi.',
+				},
+			};
+
+			let calculatedData = {};
+			let calculationSteps = {};
+
+			function reduceToSingleDigit(num) {
+				// Xử lý master numbers (11, 22, 33)
+				if (num === 11 || num === 22 || num === 33) {
+					return num;
+				}
+
+				while (num > 9) {
+					let sum = 0;
+					while (num > 0) {
+						sum += num % 10;
+						num = Math.floor(num / 10);
+					}
+					num = sum;
+
+					// Kiểm tra lại master numbers sau khi tính
+					if (num === 11 || num === 22 || num === 33) {
+						return num;
+					}
+				}
+				return num;
+			}
+
+			function calculateLifePathNumber(birthDate) {
+				const date = new Date(birthDate);
+				const day = date.getDate();
+				const month = date.getMonth() + 1;
+				const year = date.getFullYear();
+
+				const sum = day + month + year;
+				const result = reduceToSingleDigit(sum);
+
+				// Lưu chi tiết tính toán
+				calculationSteps.lifePathSteps = {
+					input: `${day}/${month}/${year}`,
+					calculation: `${day} + ${month} + ${year} = ${sum}`,
+					reduction: getReductionSteps(sum),
+					result: result,
+				};
+				console.log(
+					'lifePathSteps saved:',
+					calculationSteps.lifePathSteps,
+				);
+
+				return result;
+			}
+
+			function getLetterValue(letter) {
+				return letterValues[letter.toUpperCase()] || 0;
+			}
+
+			function getReductionSteps(num) {
+				if (num === 11 || num === 22 || num === 33 || num <= 9) {
+					return `${num} (không cần rút gọn)`;
+				}
+
+				let steps = [];
+				let current = num;
+
+				while (current > 9) {
+					if (current === 11 || current === 22 || current === 33) {
+						steps.push(`${current} (Master Number)`);
+						break;
+					}
+
+					let digits = current.toString().split('').map(Number);
+					let sum = digits.reduce((a, b) => a + b, 0);
+					steps.push(`${current} → ${digits.join(' + ')} = ${sum}`);
+					current = sum;
+				}
+
+				return steps.join(' → ');
+			}
+
+			function getLetterBreakdown(name, type) {
+				const normalizedName = normalizeVietnamese(name);
+				const cleanName = normalizedName
+					.replace(/[^A-Za-z]/g, '')
+					.toUpperCase();
+
+				let breakdown = [];
+				let sum = 0;
+
+				for (let i = 0; i < cleanName.length; i++) {
+					const letter = cleanName[i];
+					const value = getLetterValue(letter);
+					let include = false;
+
+					if (type === 'all') {
+						include = true;
+					} else if (type === 'vowel') {
+						include = isVowel(letter, cleanName, i);
+					} else if (type === 'consonant') {
+						include = !isVowel(letter, cleanName, i);
+					}
+
+					if (include) {
+						breakdown.push(`${letter}(${value})`);
+						sum += value;
+					}
+				}
+
+				return {
+					letters: breakdown.join(' + '),
+					calculation: `${breakdown.join(' + ')} = ${sum}`,
+					sum: sum,
+				};
+			}
+
+			function calculateDestinyNumber(fullName) {
+				const breakdown = getLetterBreakdown(fullName, 'all');
+				const result = reduceToSingleDigit(breakdown.sum);
+
+				// Lưu chi tiết tính toán
+				calculationSteps.destinySteps = {
+					input: `"${fullName}"`,
+					letters: breakdown.letters,
+					calculation: breakdown.calculation,
+					reduction: getReductionSteps(breakdown.sum),
+					result: result,
+				};
+				console.log(
+					'destinySteps saved:',
+					calculationSteps.destinySteps,
+				);
+				console.log('breakdown object:', breakdown);
+				console.log(
+					'fullName passed to calculateDestinyNumber:',
+					fullName,
+				);
+
+				return result;
+			}
+
+			document.getElementById('numerologyForm').addEventListener;
+			document
+				.getElementById('numerologyForm')
+				.addEventListener('submit', function (e) {
+					e.preventDefault();
+
+					const fullName = document
+						.getElementById('fullName')
+						.value.trim();
+					const birthDate =
+						document.getElementById('birthDate').value;
+
+					if (!fullName || !birthDate) {
+						alert('Vui lòng nhập đầy đủ thông tin!');
+						return;
+					}
+
+					// Reset calculationSteps
+					calculationSteps = {};
+
+					// Tính toán các con số
+					console.log('Calculating lifePathNumber...');
+					const lifePathNumber = calculateLifePathNumber(birthDate);
+					console.log('Calculating destinyNumber...');
+					const destinyNumber = calculateDestinyNumber(fullName);
+					console.log('Calculating soulUrgeNumber...');
+					const soulUrgeNumber = calculateSoulUrgeNumber(fullName);
+					console.log('Calculating personalityNumber...');
+					const personalityNumber =
+						calculatePersonalityNumber(fullName);
+					console.log('Calculating birthdayNumber...');
+					const birthdayNumber = calculateBirthdayNumber(birthDate);
+					console.log('Calculating attitudeNumber...');
+					const attitudeNumber = calculateAttitudeNumber(birthDate);
+					console.log('Calculating maturityNumber...');
+					const maturityNumber = calculateMaturityNumber(
+						lifePathNumber,
+						destinyNumber,
+					);
+
+					console.log(
+						'All calculations done, calculationSteps:',
+						calculationSteps,
+					);
+
+					// Lưu dữ liệu để export PDF
+					calculatedData = {
+						fullName,
+						birthDate,
+						lifePathNumber,
+						destinyNumber,
+						soulUrgeNumber,
+						personalityNumber,
+						birthdayNumber,
+						attitudeNumber,
+						maturityNumber,
+					};
+
+					// Hiển thị kết quả
+					document.getElementById('lifePathNumber').textContent =
+						lifePathNumber;
+					document.getElementById('lifePathDescription').textContent =
+						descriptions.lifePathDescriptions[lifePathNumber];
+
+					document.getElementById('destinyNumber').textContent =
+						destinyNumber;
+					document.getElementById('destinyDescription').textContent =
+						descriptions.destinyDescriptions[destinyNumber];
+
+					document.getElementById('soulUrgeNumber').textContent =
+						soulUrgeNumber;
+					document.getElementById('soulUrgeDescription').textContent =
+						descriptions.soulUrgeDescriptions[soulUrgeNumber];
+
+					document.getElementById('personalityNumber').textContent =
+						personalityNumber;
+					document.getElementById(
+						'personalityDescription',
+					).textContent =
+						descriptions.personalityDescriptions[personalityNumber];
+
+					document.getElementById('birthdayNumber').textContent =
+						birthdayNumber;
+					document.getElementById('birthdayDescription').textContent =
+						descriptions.birthdayDescriptions[birthdayNumber];
+
+					document.getElementById('attitudeNumber').textContent =
+						attitudeNumber;
+					document.getElementById('attitudeDescription').textContent =
+						descriptions.attitudeDescriptions[attitudeNumber];
+
+					document.getElementById('maturityNumber').textContent =
+						maturityNumber;
+					document.getElementById('maturityDescription').textContent =
+						descriptions.maturityDescriptions[maturityNumber];
+
+					// Hiển thị kết quả với hiệu ứng
+					const resultsDiv = document.getElementById('results');
+					resultsDiv.style.display = 'block';
+
+					// Hiển thị chi tiết công thức
+					console.log('About to display calculation details');
+					const formulaSection =
+						document.getElementById('formulaSection');
+					console.log('Formula section element:', formulaSection);
+
+					setTimeout(() => {
+						displayCalculationDetails();
+					}, 100);
+
+					resultsDiv.scrollIntoView({ behavior: 'smooth' });
+				});
+
+			async function exportToPDF() {
+				if (!calculatedData.fullName) {
+					alert('Vui lòng tính toán thần số học trước khi xuất PDF!');
+					return;
+				}
+
+				// Tạo element chứa nội dung để export
+				const printContent = document.createElement('div');
+				printContent.style.cssText = `
+					width: 210mm;
+					padding: 20px;
+					font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+					background: white;
+					color: black;
+					font-size: 14px;
+					line-height: 1.5;
+				`;
+
+				printContent.innerHTML = `
+					<div style="text-align: center; margin-bottom: 30px;">
+						<h1 style="color: #667eea; font-size: 24px; margin-bottom: 10px;">🔮 BÁO CÁO THẦN SỐ HỌC</h1>
+						<p style="color: #666; font-style: italic;">Khám phá bản thân thông qua sức mạnh của con số</p>
+					</div>
+					
+					<div style="margin-bottom: 30px; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+						<h3 style="color: #333; margin-bottom: 15px;">THÔNG TIN CÁ NHÂN</h3>
+						<p><strong>Họ và tên:</strong> ${calculatedData.fullName}</p>
+						<p><strong>Ngày sinh:</strong> ${new Date(
+							calculatedData.birthDate,
+						).toLocaleDateString('vi-VN')}</p>
+						<p><strong>Ngày tạo báo cáo:</strong> ${new Date().toLocaleDateString(
+							'vi-VN',
+						)}</p>
+					</div>
+
+					<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; color: white;">
+						<h3 style="margin-bottom: 15px;">🌟 SỐ ĐƯỜNG ĐỜI (LIFE PATH NUMBER)</h3>
+						<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${
+							calculatedData.lifePathNumber
+						}</div>
+						<p style="text-align: justify;">${
+							descriptions.lifePathDescriptions[
+								calculatedData.lifePathNumber
+							]
+						}</p>
+					</div>
+
+					<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 15px; color: white;">
+						<h3 style="margin-bottom: 15px;">🎯 SỐ ĐỊNH MỆNH (DESTINY NUMBER)</h3>
+						<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${
+							calculatedData.destinyNumber
+						}</div>
+						<p style="text-align: justify;">${
+							descriptions.destinyDescriptions[
+								calculatedData.destinyNumber
+							]
+						}</p>
+					</div>
+
+					<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #feca57, #ff9ff3); border-radius: 15px; color: white;">
+						<h3 style="margin-bottom: 15px;">💖 SỐ KHÁT KHAO TÂM HỒN (SOUL URGE NUMBER)</h3>
+						<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${
+							calculatedData.soulUrgeNumber
+						}</div>
+						<p style="text-align: justify;">${
+							descriptions.soulUrgeDescriptions[
+								calculatedData.soulUrgeNumber
+							]
+						}</p>
+					</div>
+
+					<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #48c6ef, #6f86d6); border-radius: 15px; color: white;">
+						<h3 style="margin-bottom: 15px;">🎭 SỐ NHÂN CÁCH (PERSONALITY NUMBER)</h3>
+						<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${
+							calculatedData.personalityNumber
+						}</div>
+						<p style="text-align: justify;">${
+							descriptions.personalityDescriptions[
+								calculatedData.personalityNumber
+							]
+						}</p>
+					</div>
+
+					<div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-style: italic;">
+						<p>Báo cáo này được tạo bởi Trang Web Thần Số Học</p>
+						<p style="font-size: 12px; margin-top: 10px;">"Con số không chỉ là ký hiệu, mà còn là chìa khóa mở ra những bí mật của cuộc sống"</p>
+					</div>
+				`;
+
+				// Ẩn phần công thức trước khi export
+				const formulaSection =
+					document.getElementById('formulaSection');
+				const originalDisplay = formulaSection.style.display;
+				formulaSection.style.display = 'none';
+
+				// Tạm thời thêm vào body để render
+				document.body.appendChild(printContent);
+
+				try {
+					// Sử dụng html2canvas để chuyển HTML thành canvas
+					const canvas = await html2canvas(printContent, {
+						scale: 2, // Tăng chất lượng
+						useCORS: true,
+						allowTaint: true,
+						backgroundColor: '#ffffff',
+					});
+
+					// Tạo PDF từ canvas
+					const { jsPDF } = window.jspdf;
+					const pdf = new jsPDF('p', 'mm', 'a4');
+
+					const imgWidth = 210; // A4 width in mm
+					const pageHeight = 295; // A4 height in mm
+					const imgHeight = (canvas.height * imgWidth) / canvas.width;
+					let heightLeft = imgHeight;
+
+					let position = 0;
+
+					// Thêm ảnh vào PDF
+					pdf.addImage(
+						canvas.toDataURL('image/png'),
+						'PNG',
+						0,
+						position,
+						imgWidth,
+						imgHeight,
+					);
+					heightLeft -= pageHeight;
+
+					// Nếu nội dung dài hơn 1 trang, thêm trang mới
+					while (heightLeft >= 0) {
+						position = heightLeft - imgHeight;
+						pdf.addPage();
+						pdf.addImage(
+							canvas.toDataURL('image/png'),
+							'PNG',
+							0,
+							position,
+							imgWidth,
+							imgHeight,
+						);
+						heightLeft -= pageHeight;
+					}
+
+					// Lưu file PDF
+					const fileName = `Than_So_Hoc_${calculatedData.fullName.replace(
+						/\s+/g,
+						'_',
+					)}_${new Date().toISOString().slice(0, 10)}.pdf`;
+					pdf.save(fileName);
+				} catch (error) {
+					console.error('Lỗi khi tạo PDF:', error);
+					alert('Có lỗi xảy ra khi tạo PDF. Vui lòng thử lại!');
+				} finally {
+					// Xóa element tạm thời và khôi phục hiển thị phần công thức
+					document.body.removeChild(printContent);
+					formulaSection.style.display = originalDisplay;
+				}
+			}
+
+			// Thêm hiệu ứng cho form
+			const inputs = document.querySelectorAll('input');
+			inputs.forEach(input => {
+				input.addEventListener('focus', function () {
+					this.style.transform = 'translateY(-2px)';
+					this.style.boxShadow =
+						'0 5px 15px rgba(102, 126, 234, 0.2)';
+				});
+
+				input.addEventListener('blur', function () {
+					this.style.transform = 'translateY(0)';
+					this.style.boxShadow = 'none';
+				});
+			});
+
+			// Xử lý tên tiếng Việt
+			function normalizeVietnamese(str) {
+				const accents = {
+					à: 'a',
+					á: 'a',
+					ả: 'a',
+					ã: 'a',
+					ạ: 'a',
+					ă: 'a',
+					ằ: 'a',
+					ắ: 'a',
+					ẳ: 'a',
+					ẵ: 'a',
+					ặ: 'a',
+					â: 'a',
+					ầ: 'a',
+					ấ: 'a',
+					ẩ: 'a',
+					ẫ: 'a',
+					ậ: 'a',
+					è: 'e',
+					é: 'e',
+					ẻ: 'e',
+					ẽ: 'e',
+					ẹ: 'e',
+					ê: 'e',
+					ề: 'e',
+					ế: 'e',
+					ể: 'e',
+					ễ: 'e',
+					ệ: 'e',
+					ì: 'i',
+					í: 'i',
+					ỉ: 'i',
+					ĩ: 'i',
+					ị: 'i',
+					ò: 'o',
+					ó: 'o',
+					ỏ: 'o',
+					õ: 'o',
+					ọ: 'o',
+					ô: 'o',
+					ồ: 'o',
+					ố: 'o',
+					ổ: 'o',
+					ỗ: 'o',
+					ộ: 'o',
+					ơ: 'o',
+					ờ: 'o',
+					ớ: 'o',
+					ở: 'o',
+					ỡ: 'o',
+					ợ: 'o',
+					ù: 'u',
+					ú: 'u',
+					ủ: 'u',
+					ũ: 'u',
+					ụ: 'u',
+					ư: 'u',
+					ừ: 'u',
+					ứ: 'u',
+					ử: 'u',
+					ữ: 'u',
+					ự: 'u',
+					ỳ: 'y',
+					ý: 'y',
+					ỷ: 'y',
+					ỹ: 'y',
+					ỵ: 'y',
+					đ: 'd',
+				};
+
+				return str
+					.split('')
+					.map(char => accents[char.toLowerCase()] || char)
+					.join('');
+			}
+
+			// Cập nhật các hàm tính toán để hỗ trợ tiếng Việt
+			function calculateDestinyNumber(fullName) {
+				const normalizedName = normalizeVietnamese(fullName);
+				const cleanName = normalizedName
+					.replace(/[^A-Za-z]/g, '')
+					.toUpperCase();
+				let sum = 0;
+
+				for (let letter of cleanName) {
+					sum += getLetterValue(letter);
+				}
+
+				return reduceToSingleDigit(sum);
+			}
+
+			function calculateSoulUrgeNumber(fullName) {
+				const breakdown = getLetterBreakdown(fullName, 'vowel');
+				const result = reduceToSingleDigit(breakdown.sum);
+
+				// Lưu chi tiết tính toán
+				calculationSteps.soulUrgeSteps = {
+					input: `"${fullName}" (chỉ nguyên âm)`,
+					letters: breakdown.letters,
+					calculation: breakdown.calculation,
+					reduction: getReductionSteps(breakdown.sum),
+					result: result,
+				};
+
+				return result;
+			}
+
+			function calculatePersonalityNumber(fullName) {
+				const breakdown = getLetterBreakdown(fullName, 'consonant');
+				const result = reduceToSingleDigit(breakdown.sum);
+
+				// Lưu chi tiết tính toán
+				calculationSteps.personalitySteps = {
+					input: `"${fullName}" (chỉ phụ âm)`,
+					letters: breakdown.letters,
+					calculation: breakdown.calculation,
+					reduction: getReductionSteps(breakdown.sum),
+					result: result,
+				};
+
+				return result;
+			}
+
+			function displayCalculationDetails() {
+				const detailsDiv =
+					document.getElementById('calculationDetails');
+				console.log('detailsDiv found:', detailsDiv);
+
+				// Test với nội dung đơn giản trước
+				// detailsDiv.innerHTML = '<p style="color: red; font-weight: bold;">TEST - Formula section is working!</p>';
+
+				// Debug log để kiểm tra
+				console.log('calculationSteps:', calculationSteps);
+				console.log(
+					'calculationSteps keys:',
+					Object.keys(calculationSteps),
+				);
+				console.log(
+					'lifePathSteps exists:',
+					!!calculationSteps.lifePathSteps,
+				);
+				console.log(
+					'destinySteps exists:',
+					!!calculationSteps.destinySteps,
+				);
+
+				// Kiểm tra xem có data nào không
+				const hasAnyData =
+					calculationSteps.lifePathSteps ||
+					calculationSteps.destinySteps ||
+					calculationSteps.soulUrgeSteps ||
+					calculationSteps.personalitySteps ||
+					calculationSteps.birthdaySteps ||
+					calculationSteps.attitudeSteps ||
+					calculationSteps.maturitySteps;
+
+				if (!hasAnyData) {
+					console.error('calculationSteps not properly initialized');
+					detailsDiv.innerHTML +=
+						'<p style="color: red;">ERROR: Calculation steps missing. Please try calculating again.</p>';
+					return;
+				}
+
+				console.log(
+					'Proceeding to display formula with available data',
+				);
+
+				console.log(calculationSteps.destinySteps);
+
+				const html = `
+					<div style="display: grid; gap: 20px;">
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #667eea;">
+							<h4 style="color: #667eea; margin-bottom: 10px;">🌟 Số Đường Đời (Life Path Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.lifePathSteps?.input || 'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.lifePathSteps?.calculation ||
+								'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.lifePathSteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #667eea; font-weight: bold;">${
+								calculationSteps.lifePathSteps?.result || 'N/A'
+							}</span></p>
+						</div>
+
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #f093fb;">
+							<h4 style="color: #f093fb; margin-bottom: 10px;">🎯 Số Định Mệnh (Destiny Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.destinySteps?.input || 'N/A'
+							}</p>
+							<p><strong>Chữ cái:</strong> ${
+								calculationSteps.destinySteps?.letters || 'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.destinySteps?.calculation ||
+								'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.destinySteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #f093fb; font-weight: bold;">${
+								calculationSteps.destinySteps?.result || 'N/A'
+							}</span></p>
+						</div>
+
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #feca57;">
+							<h4 style="color: #feca57; margin-bottom: 10px;">💖 Số Khát Khao Tâm Hồn (Soul Urge Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.soulUrgeSteps?.input || 'N/A'
+							}</p>
+							<p><strong>Nguyên âm:</strong> ${
+								calculationSteps.soulUrgeSteps?.letters || 'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.soulUrgeSteps?.calculation ||
+								'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.soulUrgeSteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #feca57; font-weight: bold;">${
+								calculationSteps.soulUrgeSteps?.result || 'N/A'
+							}</span></p>
+						</div>
+
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #48c6ef;">
+							<h4 style="color: #48c6ef; margin-bottom: 10px;">🎭 Số Nhân Cách (Personality Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.personalitySteps?.input ||
+								'N/A'
+							}</p>
+							<p><strong>Phụ âm:</strong> ${
+								calculationSteps.personalitySteps?.letters ||
+								'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.personalitySteps
+									?.calculation || 'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.personalitySteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #48c6ef; font-weight: bold;">${
+								calculationSteps.personalitySteps?.result ||
+								'N/A'
+							}</span></p>
+						</div>
+
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #ff9a56;">
+							<h4 style="color: #ff9a56; margin-bottom: 10px;">🎂 Số Ngày Sinh (Birthday Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.birthdaySteps?.input || 'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.birthdaySteps?.calculation ||
+								'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.birthdaySteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #ff9a56; font-weight: bold;">${
+								calculationSteps.birthdaySteps?.result || 'N/A'
+							}</span></p>
+						</div>
+
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #a8e6cf;">
+							<h4 style="color: #a8e6cf; margin-bottom: 10px;">🌱 Số Thái Độ (Attitude Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.attitudeSteps?.input || 'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.attitudeSteps?.calculation ||
+								'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.attitudeSteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #a8e6cf; font-weight: bold;">${
+								calculationSteps.attitudeSteps?.result || 'N/A'
+							}</span></p>
+						</div>
+
+						<div style="padding: 15px; background: white; border-radius: 10px; border-left: 4px solid #ff6b9d;">
+							<h4 style="color: #ff6b9d; margin-bottom: 10px;">🌸 Số Trưởng Thành (Maturity Number)</h4>
+							<p><strong>Công thức:</strong> ${
+								calculationSteps.maturitySteps?.input || 'N/A'
+							}</p>
+							<p><strong>Tính toán:</strong> ${
+								calculationSteps.maturitySteps?.calculation ||
+								'N/A'
+							}</p>
+							<p><strong>Rút gọn:</strong> ${
+								calculationSteps.maturitySteps?.reduction ||
+								'N/A'
+							}</p>
+							<p><strong>Kết quả:</strong> <span style="color: #ff6b9d; font-weight: bold;">${
+								calculationSteps.maturitySteps?.result || 'N/A'
+							}</span></p>
+						</div>
+
+						<div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px;">
+							<h5 style="color: #1976d2; margin-bottom: 10px;">📝 Lưu ý về quy tắc Y:</h5>
+							<p style="font-size: 0.9em; color: #333;">
+								• Y được coi là <strong>nguyên âm</strong> khi đứng độc lập hoặc không có nguyên âm kế bên<br>
+								• Y được coi là <strong>phụ âm</strong> khi đứng trước hoặc sau các nguyên âm A, E, I, O, U
+							</p>
+						</div>
+					</div>
+				`;
+
+				detailsDiv.innerHTML = html;
+				console.log('Formula details updated successfully');
+			}
+
+			function calculateBirthdayNumber(birthDate) {
+				const date = new Date(birthDate);
+				const day = date.getDate();
+				const result = day;
+
+				// Lưu chi tiết tính toán
+				calculationSteps.birthdaySteps = {
+					input: `Ngày sinh: ${day}`,
+					calculation: `Số Ngày Sinh = ${day}`,
+					reduction: 'Không cần rút gọn',
+					result: result,
+				};
+				console.log(
+					'birthdaySteps saved:',
+					calculationSteps.birthdaySteps,
+				);
+
+				return result;
+			}
+
+			function calculateAttitudeNumber(birthDate) {
+				const date = new Date(birthDate);
+				const day = date.getDate();
+				const month = date.getMonth() + 1;
+
+				const sum = day + month;
+				const result = reduceToSingleDigit(sum);
+
+				// Lưu chi tiết tính toán
+				calculationSteps.attitudeSteps = {
+					input: `${day}/${month}`,
+					calculation: `${day} + ${month} = ${sum}`,
+					reduction: getReductionSteps(sum),
+					result: result,
+				};
+				console.log(
+					'attitudeSteps saved:',
+					calculationSteps.attitudeSteps,
+				);
+
+				return result;
+			}
+
+			function calculateMaturityNumber(lifePathNumber, destinyNumber) {
+				const sum = lifePathNumber + destinyNumber;
+				const result = reduceToSingleDigit(sum);
+
+				// Lưu chi tiết tính toán
+				calculationSteps.maturitySteps = {
+					input: `Life Path: ${lifePathNumber}, Destiny: ${destinyNumber}`,
+					calculation: `${lifePathNumber} + ${destinyNumber} = ${sum}`,
+					reduction: getReductionSteps(sum),
+					result: result,
+				};
+				console.log(
+					'maturitySteps saved:',
+					calculationSteps.maturitySteps,
+				);
+
+				return result;
+			}
+		</script>
+	</body>
+</html>
