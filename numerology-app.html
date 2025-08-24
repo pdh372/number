@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Của Hà</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .export-btn {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: linear-gradient(45deg, #ccc, #999);
+        }
+
+        .export-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.3);
+        }
+
+        .results {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .number {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .mini-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85em;
+            line-height: 1.3;
+            margin-top: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .description {
+            font-size: 1.1em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #666;
+            font-style: italic;
+        }
+
+        .formula-section {
+            display: block;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .formula-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .formula-section h3 span {
+            margin-left: 10px;
+            font-size: 0.8em;
+            color: #666;
+            font-weight: normal;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔮 Thần Số Học</h1>
+            <p>Khám phá bản thân thông qua sức mạnh của con số</p>
+        </div>
+
+        <div class="form-section">
+            <form id="numerologyForm">
+                <div class="form-group">
+                    <label for="fullName">Họ và Tên đầy đủ:</label>
+                    <input type="text" id="fullName" value="Phạm Thị Thu Hà" placeholder="VD: Nguyễn Văn An" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="birthDate">Ngày sinh:</label>
+                    <input type="date" id="birthDate" value="1993-04-12" required />
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="calculate-btn">✨ Tính toán thần số học</button>
+                    <button type="button" id="exportBtn" class="export-btn" onclick="exportToPDF()" disabled>📄 Xuất PDF</button>
+                </div>
+            </form>
+
+            <div class="results" id="results">
+                <div class="result-card" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <h3>🌟 Số Đường Đời (Life Path Number)</h3>
+                    <div class="number" id="lifePathNumber"></div>
+                    <div class="mini-description" id="lifePathMini"></div>
+                </div>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <h3>🎯 Số Định Mệnh (Destiny Number)</h3>
+                    <div class="number" id="destinyNumber"></div>
+                    <div class="mini-description" id="destinyMini"></div>
+                </div>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #feca57, #ff9ff3);">
+                    <h3>💖 Số Khát Khao Tâm Hồn (Soul Urge Number)</h3>
+                    <div class="number" id="soulUrgeNumber"></div>
+                    <div class="mini-description" id="soulUrgeMini"></div>
+                </div>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #48c6ef, #6f86d6);">
+                    <h3>🎭 Số Nhân Cách (Personality Number)</h3>
+                    <div class="number" id="personalityNumber"></div>
+                    <div class="mini-description" id="personalityMini"></div>
+                </div>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #ff9a56, #ffad56);">
+                    <h3>🎂 Số Ngày Sinh (Birthday Number)</h3>
+                    <div class="number" id="birthdayNumber"></div>
+                    <div class="mini-description" id="birthdayMini"></div>
+                </div>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #a8e6cf, #7fcdcd);">
+                    <h3>🌱 Số Thái Độ (Attitude Number)</h3>
+                    <div class="number" id="attitudeNumber"></div>
+                    <div class="mini-description" id="attitudeMini"></div>
+                </div>
+
+                <div class="result-card" style="background: linear-gradient(135deg, #ff6b9d, #c44569);">
+                    <h3>🌸 Số Trưởng Thành (Maturity Number)</h3>
+                    <div class="number" id="maturityNumber"></div>
+                    <div class="mini-description" id="maturityMini"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            "Con số không chỉ là ký hiệu, mà còn là chìa khóa mở ra những bí mật của cuộc sống"
+        </div>
+    </div>
+
+    <script>
+        // Letter values for numerology calculations
+        const letterValues = {
+            A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7, H: 8, I: 9,
+            J: 1, K: 2, L: 3, M: 4, N: 5, O: 6, P: 7, Q: 8, R: 9,
+            S: 1, T: 2, U: 3, V: 4, W: 5, X: 6, Y: 7, Z: 8,
+        };
+
+        const baseVowels = ['A', 'E', 'I', 'O', 'U'];
+
+        // Vietnamese accent mapping for normalization
+        const vietnameseAccents = {
+            à: 'a', á: 'a', ả: 'a', ã: 'a', ạ: 'a', ă: 'a', ằ: 'a', ắ: 'a', ẳ: 'a', ẵ: 'a', ặ: 'a',
+            â: 'a', ầ: 'a', ấ: 'a', ẩ: 'a', ẫ: 'a', ậ: 'a',
+            è: 'e', é: 'e', ẻ: 'e', ẽ: 'e', ẹ: 'e', ê: 'e', ề: 'e', ế: 'e', ể: 'e', ễ: 'e', ệ: 'e',
+            ì: 'i', í: 'i', ỉ: 'i', ĩ: 'i', ị: 'i',
+            ò: 'o', ó: 'o', ỏ: 'o', õ: 'o', ọ: 'o', ô: 'o', ồ: 'o', ố: 'o', ổ: 'o', ỗ: 'o', ộ: 'o',
+            ơ: 'o', ờ: 'o', ớ: 'o', ở: 'o', ỡ: 'o', ợ: 'o',
+            ù: 'u', ú: 'u', ủ: 'u', ũ: 'u', ụ: 'u', ư: 'u', ừ: 'u', ứ: 'u', ử: 'u', ữ: 'u', ự: 'u',
+            ỳ: 'y', ý: 'y', ỷ: 'y', ỹ: 'y', ỵ: 'y',
+            đ: 'd',
+        };
+
+        // Detailed number information
+        const numberDetails = {
+            1: {
+                lifePath: {
+                    meaning: 'Con đường học tự chủ và tiên phong; dám chọn lối riêng, dẫn dắt bằng gương mẫu.',
+                    positive: "Chủ động, 'tôi chịu trách nhiệm', đặt mục tiêu rõ - hành động nhanh, biết xin hỗ trợ khi cần.",
+                    negative: 'Lề thói, chần chừ; hoặc độc đoán, nóng nảy, thích áp đặt.',
+                },
+                destiny: {
+                    meaning: 'Mục đích sống là khởi xướng giá trị mới cho tập thể/cộng đồng.',
+                    positive: 'Tạo tâm điểm, kích hoạt người khác hành động.',
+                    negative: 'Dễ bị lung lay bởi phán xét; hoặc muốn chứng tỏ quá mức.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được tự do lựa chọn & tự quyết; được công nhận năng lực.',
+                    positive: 'Bình an khi được tự chủ; thích không gian riêng để sáng tạo.',
+                    negative: 'Bực bội khi bị kiểm soát; dễ nổi nóng, phòng thủ.',
+                },
+                personality: {
+                    meaning: 'Cách thể hiện ra ngoài: nhanh nhẹn, quyết đoán, thẳng thắn.',
+                    positive: 'Rõ ràng, mạch lạc; quyết định có lý do.',
+                    negative: "Bộc trực quá mức, cắt lời; dễ bị xem 'cứng đầu'.",
+                },
+                attitude: {
+                    meaning: 'Ấn tượng ban đầu/khi chat: mạnh mẽ, chủ động.',
+                    positive: "Tạo cảm giác an tâm 'có người cầm lái'.",
+                    negative: 'Gây áp lực vô hình, người khác ngại góp ý.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: bắt đầu việc mới, tự lập, thích thử thách.',
+                    positive: 'Biết mở đường rồi bàn giao quy trình.',
+                    negative: "'Ôm hết', kiệt sức; hoặc bỏ ngang khi chán.",
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao đời sống: quyền lực nội tại và vị thế dẫn dắt dựa trên đức tin vào chính mình & giá trị phụng sự.',
+                    positive: 'Ảnh hưởng tích cực, được mọi người hỏi ý/mentor.',
+                    negative: "Cố chấp giữ quyền lực; 'thắng–thua' thay vì win–win.",
+                },
+            },
+            2: {
+                lifePath: {
+                    meaning: 'Con đường học hợp tác – cân bằng – kiên nhẫn.',
+                    positive: 'Dịu dàng, hỗ trợ, tạo sự hòa hợp.',
+                    negative: 'Quá nhạy cảm, sợ mâu thuẫn, thiếu quyết đoán.',
+                },
+                destiny: {
+                    meaning: 'Sứ mệnh trở thành người kết nối, bắc cầu giữa con người.',
+                    positive: 'Tinh tế, hợp tác, khuyến khích tiềm năng người khác.',
+                    negative: 'Sống trong bóng người khác, sợ thể hiện bản thân.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được kết nối, được yêu thương, được an toàn trong quan hệ.',
+                    positive: 'Bình an khi cảm thấy gắn bó, được tin cậy.',
+                    negative: 'Lệ thuộc tình cảm, dễ mất mình trong mối quan hệ.',
+                },
+                personality: {
+                    meaning: 'Bề ngoài dịu dàng, mềm mại, thân thiện.',
+                    positive: 'Tạo cảm giác dễ gần, dễ chia sẻ.',
+                    negative: 'Quá nhút nhát, ngại va chạm, dễ bị lấn lướt.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận nhẹ nhàng, kiên nhẫn.',
+                    positive: 'Giúp tập thể thấy an toàn, yên tâm.',
+                    negative: 'Tránh né mâu thuẫn, thiếu quyết đoán.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: tinh tế, cảm xúc, trực giác.',
+                    positive: 'Dễ đồng cảm, tạo không khí hòa hợp.',
+                    negative: 'Quá nhạy cảm, dễ tự ái.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: người nuôi dưỡng, hòa giải viên; trực giác sâu sắc.',
+                    positive: 'Trở thành điểm tựa tinh thần, được tin cậy.',
+                    negative: 'Đánh mất bản thân trong việc làm hài lòng người khác.',
+                },
+            },
+            3: {
+                lifePath: {
+                    meaning: 'Con đường học biểu đạt & lan tỏa niềm vui.',
+                    positive: 'Hài hước, sáng tạo, giao tiếp hiệu quả.',
+                    negative: 'Phân tán, nóng nảy, tránh trách nhiệm.',
+                },
+                destiny: {
+                    meaning: 'Sứ mệnh trở thành người truyền cảm hứng qua biểu đạt.',
+                    positive: 'Mang năng lượng tích cực, lan tỏa sự lạc quan.',
+                    negative: 'Sống bề ngoài, chạy theo niềm vui tạm thời.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được vui, được tự do biểu đạt.',
+                    positive: 'Hạnh phúc khi được chia sẻ, sáng tạo.',
+                    negative: 'Dễ hụt hẫng khi bị kiềm nén.',
+                },
+                personality: {
+                    meaning: 'Biểu đạt ra ngoài: vui vẻ, hoạt bát, thu hút.',
+                    positive: 'Tạo không khí cởi mở, hứng khởi.',
+                    negative: 'Hay đùa quá trớn, thiếu nghiêm túc.',
+                },
+                attitude: {
+                    meaning: 'Ấn tượng ban đầu: thân thiện, vui tính.',
+                    positive: 'Làm người khác thấy thoải mái.',
+                    negative: 'Bị coi là hời hợt, thiếu tin cậy.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: sáng tạo, biểu đạt, dí dỏm.',
+                    positive: 'Kết nối nhanh, làm người khác cười.',
+                    negative: 'Nói nhiều, làm ít; dễ bỏ cuộc.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: người truyền cảm hứng sáng tạo.',
+                    positive: 'Lời nói tạo sức mạnh chữa lành, kết nối.',
+                    negative: "Chỉ 'nói cho vui', thiếu tầm ảnh hưởng.",
+                },
+            },
+            4: {
+                lifePath: {
+                    meaning: 'Con đường học kỷ luật – xây nền tảng – làm việc kiên trì.',
+                    positive: 'Tận tâm, có kế hoạch, xây dựng từng bước vững chắc.',
+                    negative: 'Cứng nhắc, sợ thay đổi, quá cầu toàn.',
+                },
+                destiny: {
+                    meaning: 'Mục đích sống: tạo cấu trúc & hệ thống bền vững cho người khác.',
+                    positive: 'Xây dựng nền tảng vững chắc, tạo ra trật tự.',
+                    negative: 'Quá khắt khe, thiếu linh hoạt.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được an toàn, ổn định và có trật tự.',
+                    positive: 'Bình an khi mọi thứ được tổ chức tốt.',
+                    negative: 'Lo âu khi thiếu kiểm soát, sợ hỗn loạn.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: thực tế, đáng tin cậy, có tổ chức.',
+                    positive: 'Tạo cảm giác an toàn, đáng tin cậy.',
+                    negative: 'Cứng nhắc, thiếu sự linh hoạt.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: thận trọng, có phương pháp.',
+                    positive: 'Tạo ra kết quả bền vững, chất lượng.',
+                    negative: 'Chậm chạp, thiếu sự sáng tạo.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: kiên nhẫn, chăm chỉ, có kỷ luật.',
+                    positive: 'Hoàn thành công việc từ đầu đến cuối.',
+                    negative: 'Quá cầu toàn, khó thích ứng.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: người xây dựng, tạo ra hệ thống bền vững.',
+                    positive: 'Để lại di sản vững chắc, được tôn trọng.',
+                    negative: 'Bảo thủ quá mức, cản trở sự phát triển.',
+                },
+            },
+            5: {
+                lifePath: {
+                    meaning: 'Con đường học tự do – linh hoạt – thích nghi – đổi mới.',
+                    positive: 'Linh hoạt, thích khám phá, tạo ra sự đa dạng.',
+                    negative: 'Thiếu kiên trì, tránh trách nhiệm, bốc đồng.',
+                },
+                destiny: {
+                    meaning: 'Mục đích sống: lan tỏa tinh thần tự do & đổi mới.',
+                    positive: 'Mang lại sự thay đổi tích cực, mở rộng tầm nhìn.',
+                    negative: 'Thay đổi vô mục đích, gây bất ổn.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được tự do, khám phá, trải nghiệm.',
+                    positive: 'Hạnh phúc khi được du lịch, học hỏi điều mới.',
+                    negative: 'Bồn chồn khi bị ràng buộc, dễ nhàm chán.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: năng động, thú vị, không thể đoán trước.',
+                    positive: 'Tạo sự hứng thú, mang lại năng lượng mới.',
+                    negative: 'Thiếu ổn định, khó dự đoán.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: linh hoạt, thích thử nghiệm.',
+                    positive: 'Thích ứng nhanh với thay đổi.',
+                    negative: 'Thiếu tập trung, dễ bỏ cuộc giữa chừng.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: tự do, phiêu lưu, hiếu kỳ.',
+                    positive: 'Học hỏi nhanh, thích ứng tốt.',
+                    negative: 'Không kiên trì, dễ phân tâm.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: người mang lại tự do và đổi mới.',
+                    positive: 'Trở thành catalyst cho sự thay đổi tích cực.',
+                    negative: 'Thay đổi vô định hướng, gây mất ổn định.',
+                },
+            },
+            6: {
+                lifePath: {
+                    meaning: 'Con đường học trách nhiệm – yêu thương – kiến tạo tổ ấm.',
+                    positive: 'Chăm sóc, bảo vệ, tạo ra môi trường ấm áp.',
+                    negative: 'Can thiệp quá mức, hy sinh bản thân.',
+                },
+                destiny: {
+                    meaning: 'Mục đích sống: xây nền tảng tình thương & trách nhiệm cho cộng đồng.',
+                    positive: 'Chữa lành, nuôi dưỡng, tạo ra sự hòa hợp.',
+                    negative: 'Kiểm soát quá mức, áp đặt tình yêu.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được yêu thương và chăm sóc người khác.',
+                    positive: 'Hạnh phúc khi gia đình hòa thuận, mọi người hạnh phúc.',
+                    negative: 'Đau khổ khi không được đánh giá cao.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: ấm áp, quan tâm, bảo vệ.',
+                    positive: 'Tạo cảm giác an toàn, được yêu thương.',
+                    negative: 'Can thiệp quá mức, tạo áp lực.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: chăm sóc, có trách nhiệm.',
+                    positive: 'Đặt nhu cầu người khác lên trước.',
+                    negative: 'Quên mất nhu cầu bản thân.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: yêu thương, chăm sóc, có trách nhiệm.',
+                    positive: 'Tạo ra môi trường hỗ trợ, nuôi dưỡng.',
+                    negative: 'Hy sinh quá mức, kiệt sức.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: người chữa lành, cố vấn gia đình và cộng đồng.',
+                    positive: 'Trở thành trụ cột tinh thần, được kính trọng.',
+                    negative: 'Kiểm soát quá mức, tạo ra phụ thuộc.',
+                },
+            },
+            7: {
+                lifePath: {
+                    meaning: 'Con đường tìm chân lý – sự thật – trí tuệ tâm linh.',
+                    positive: 'Suy ngẫm sâu sắc, tìm kiếm ý nghĩa, phát triển trực giác.',
+                    negative: 'Cô lập, hoài nghi quá mức, trốn tránh thực tế.',
+                },
+                destiny: {
+                    meaning: 'Mục đích: mang tri thức & minh triết để khai sáng cộng đồng.',
+                    positive: 'Chia sẻ kiến thức, dẫn dắt tâm linh.',
+                    negative: 'Giữ kiến thức cho riêng mình, kiêu ngạo.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: hiểu biết sự thật, tìm ý nghĩa cuộc sống.',
+                    positive: 'Hạnh phúc khi khám phá được bí ẩn, hiểu sâu sắc.',
+                    negative: 'Cô đơn khi không ai hiểu mình.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: bí ẩn, sâu sắc, trầm tĩnh.',
+                    positive: 'Tạo ấn tượng về sự thông thái, đáng tin cậy.',
+                    negative: 'Khó tiếp cận, xa cách.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: phân tích, nghiên cứu, tìm hiểu.',
+                    positive: 'Nhìn sâu vào bản chất vấn đề.',
+                    negative: 'Phân tích quá mức, chậm hành động.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: tìm tòi, nghiên cứu, trực giác.',
+                    positive: 'Khám phá những điều ẩn giấu, hiểu sâu.',
+                    negative: 'Cô lập bản thân, nghi ngờ người khác.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: nhà hiền triết, thầy tâm linh, nhà nghiên cứu.',
+                    positive: 'Trở thành nguồn trí tuệ, được tôn kính.',
+                    negative: 'Sống trong tháp ngà, xa rời thực tế.',
+                },
+            },
+            8: {
+                lifePath: {
+                    meaning: 'Con đường học quản trị – quyền lực – trách nhiệm xã hội.',
+                    positive: 'Lãnh đạo hiệu quả, tạo ra thành công bền vững.',
+                    negative: 'Ham quyền lực, coi thường người khác.',
+                },
+                destiny: {
+                    meaning: 'Mục đích: xây dựng thành công & ảnh hưởng thực tế.',
+                    positive: 'Tạo ra giá trị vật chất, công việc cho cộng đồng.',
+                    negative: 'Chỉ quan tâm đến lợi nhuận, bỏ qua con người.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: được công nhận, thành công, có ảnh hưởng.',
+                    positive: 'Hạnh phúc khi đạt được mục tiêu lớn.',
+                    negative: 'Căng thẳng khi thất bại, sợ mất kiểm soát.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: mạnh mẽ, quyền lực, chuyên nghiệp.',
+                    positive: 'Tạo ấn tượng về năng lực và uy quyền.',
+                    negative: 'Gây áp lực, khó gần.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: quyết đoán, tham vọng, thực tế.',
+                    positive: 'Biến ý tưởng thành hiện thực.',
+                    negative: 'Quá tập trung vào kết quả, bỏ qua quá trình.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: tham vọng, khả năng tổ chức, lãnh đạo.',
+                    positive: 'Quản lý tốt, đạt được mục tiêu.',
+                    negative: 'Áp lực thành công, bỏ qua cân bằng cuộc sống.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: lãnh đạo doanh nghiệp, người có ảnh hưởng xã hội.',
+                    positive: 'Để lại di sản kinh doanh, tạo công ăn việc làm.',
+                    negative: 'Quyền lực mù quáng, tham lam.',
+                },
+            },
+            9: {
+                lifePath: {
+                    meaning: 'Con đường học phụng sự – nhân văn – trí tuệ.',
+                    positive: 'Bao dung, cống hiến, nhìn xa trông rộng.',
+                    negative: 'Hy sinh quá mức, lý tưởng hóa, dễ thất vọng.',
+                },
+                destiny: {
+                    meaning: 'Mục đích: dùng trí tuệ & lòng nhân ái để nâng cao cộng đồng.',
+                    positive: 'Làm việc vì lợi ích chung, truyền cảm hứng.',
+                    negative: 'Áp đặt lý tưởng, phán xét người khác.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: cống hiến cho nhân loại, tạo ra ý nghĩa.',
+                    positive: 'Hạnh phúc khi giúp đỡ được nhiều người.',
+                    negative: 'Thất vọng khi thế giới không như mong đợi.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: từ bi, hiểu biết, bao dung.',
+                    positive: 'Tạo cảm giác được chấp nhận, hiểu.',
+                    negative: 'Có thể bị coi là xa cách, lý thuyết suông.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: nhân văn, toàn cầu, lý tưởng.',
+                    positive: 'Nhìn được bức tranh lớn, tìm giải pháp bền vững.',
+                    negative: 'Thiếu thực tế, khó áp dụng trong cuộc sống.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: nhân đạo, trí tuệ, lòng từ bi.',
+                    positive: 'Hiểu được nhu cầu của cộng đồng.',
+                    negative: 'Quá lý tưởng, không thực tế.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: nhà giáo dục, nhà từ thiện, lãnh đạo tâm linh.',
+                    positive: 'Trở thành ánh sáng dẫn đường cho nhiều người.',
+                    negative: 'Kiệt sức vì cống hiến quá mức.',
+                },
+            },
+            11: {
+                lifePath: {
+                    meaning: 'Con đường học khai sáng và truyền cảm hứng bằng trực giác – lòng nhân ái.',
+                    positive: 'Dùng trực giác dẫn dắt người khác; sống cân bằng giữa tâm linh và đời thường.',
+                    negative: 'Dễ lạc lối trong mơ hồ, hoang tưởng; quá nhạy cảm, stress.',
+                },
+                destiny: {
+                    meaning: 'Mục đích: thắp sáng và nâng độ ý thức cộng đồng.',
+                    positive: 'Biết truyền cảm hứng bằng sự khiêm nhường.',
+                    negative: "Muốn trở thành 'cứu thế'; kiêu ngạo tâm linh.",
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu xa: được kết nối với nguồn sáng & truyền cảm hứng.',
+                    positive: 'Tìm thấy ý nghĩa khi dẫn dắt người khác thức tỉnh.',
+                    negative: 'Dễ hoang tưởng, sống trong mơ mộng.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện: nhạy cảm, tinh tế, thu hút tâm linh.',
+                    positive: 'Tỏa sáng tự nhiên, người khác muốn lắng nghe.',
+                    negative: 'Dễ mệt mỏi, thu mình.',
+                },
+                attitude: {
+                    meaning: 'Khí chất: huyền bí, truyền cảm hứng.',
+                    positive: 'Mang lại cảm giác an lành, tin tưởng.',
+                    negative: "Khi mất cân bằng, người khác thấy 'ảo tưởng'.",
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: nhạy cảm, trực giác, thiên hướng tâm linh.',
+                    positive: 'Nhìn sâu sắc, nắm bắt ẩn ý.',
+                    negative: 'Dễ lo âu, trầm cảm.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: người thắp sáng cộng đồng, để lại di sản tâm linh – trí tuệ.',
+                    positive: 'Được kính trọng như nhà tiên tri, thầy lớn.',
+                    negative: 'Ảo tưởng vĩ đại, xa rời thực tế.',
+                },
+            },
+            22: {
+                lifePath: {
+                    meaning: 'Con đường học kiến tạo bền vững – hệ thống hóa tầm nhìn lớn.',
+                    positive: 'Xây dựng những công trình vĩ đại, tạo ra hệ thống bền vững.',
+                    negative: 'Áp lực quá lớn, hoang tưởng về quy mô.',
+                },
+                destiny: {
+                    meaning: 'Mục đích: xây dựng công trình/hệ thống lớn cho nhân loại.',
+                    positive: 'Tạo ra di sản bền vững cho thế giới.',
+                    negative: 'Tham vọng quá lớn, không thực tế.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: tạo ra những thay đổi có tầm ảnh hưởng lớn.',
+                    positive: 'Hạnh phúc khi nhìn thấy tác động tích cực rộng lớn.',
+                    negative: 'Thất vọng khi không đạt được mục tiêu vĩ đại.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: có tầm nhìn, thực tế, quyền lực.',
+                    positive: 'Tạo ấn tượng về khả năng thực hiện điều lớn lao.',
+                    negative: 'Gây áp lực, khó tiếp cận.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: tầm nhìn lớn, thực tế, có hệ thống.',
+                    positive: 'Biến tầm nhìn thành hiện thực.',
+                    negative: 'Quá tham vọng, bỏ qua chi tiết.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: khả năng xây dựng lớn, tầm nhìn xa.',
+                    positive: 'Có thể tạo ra những thành tựu vĩ đại.',
+                    negative: 'Áp lực thành công, căng thẳng.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: Master Builder, để lại di sản cho nhân loại.',
+                    positive: 'Tạo ra những công trình có tầm ảnh hưởng quốc tế.',
+                    negative: 'Kiệt sức vì tham vọng quá lớn.',
+                },
+            },
+            33: {
+                lifePath: {
+                    meaning: 'Con đường học tình yêu phụng sự & trách nhiệm cộng đồng.',
+                    positive: 'Yêu thương vô điều kiện, chữa lành cộng đồng.',
+                    negative: 'Hy sinh quá mức, kiệt sức vì tình yêu.',
+                },
+                destiny: {
+                    meaning: 'Mục đích: lan tỏa tình yêu, chữa lành, trở thành thầy/cô giáo tình thần.',
+                    positive: 'Chữa lành tâm hồn, dạy về tình yêu.',
+                    negative: 'Áp đặt tình yêu, can thiệp quá mức.',
+                },
+                soul: {
+                    meaning: 'Mong muốn sâu thẳm: yêu thương và chữa lành mọi người.',
+                    positive: 'Hạnh phúc khi mọi người được chữa lành.',
+                    negative: 'Đau khổ khi không thể giúp được ai.',
+                },
+                personality: {
+                    meaning: 'Biểu hiện ra ngoài: từ bi, chữa lành, yêu thương.',
+                    positive: 'Tạo cảm giác an toàn, được yêu thương vô điều kiện.',
+                    negative: 'Có thể tạo áp lực về tình yêu.',
+                },
+                attitude: {
+                    meaning: 'Cách tiếp cận: tình yêu, từ bi, chữa lành.',
+                    positive: 'Mang lại sự chữa lành cho mọi người.',
+                    negative: 'Quên mất bản thân, kiệt sức.',
+                },
+                birthday: {
+                    meaning: 'Tố chất bẩm sinh: yêu thương, chữa lành, giáo dục.',
+                    positive: 'Có khả năng chữa lành mạnh mẽ.',
+                    negative: 'Quá nhạy cảm, dễ bị tổn thương.',
+                },
+                maturity: {
+                    meaning: 'Đỉnh cao: Master Teacher của tình yêu, chữa lành toàn cầu.',
+                    positive: 'Trở thành biểu tượng của tình yêu và từ bi.',
+                    negative: 'Kiệt sức vì cống hiến quá mức cho tình yêu.',
+                },
+            },
+        };
+
+        // Global variables
+        let calculatedData = {};
+        let calculationSteps = {};
+
+        // Helper function to normalize Vietnamese text
+        function normalizeVietnamese(str) {
+            return str
+                .split('')
+                .map(char => vietnameseAccents[char.toLowerCase()] || char)
+                .join('');
+        }
+
+        // Helper function to get letter value
+        function getLetterValue(letter) {
+            return letterValues[letter.toUpperCase()] || 0;
+        }
+
+        // Helper function to check if Y is a vowel based on context
+        function isYVowel(name, index) {
+            const upperName = name.toUpperCase();
+            const prevChar = index > 0 ? upperName[index - 1] : '';
+            const nextChar = index < upperName.length - 1 ? upperName[index + 1] : '';
+
+            // If Y is before or after a vowel, Y is a consonant
+            if (baseVowels.includes(prevChar) || baseVowels.includes(nextChar)) {
+                return false; // Y is consonant
+            }
+
+            return true; // Y is vowel
+        }
+
+        // Helper function to check if a letter is a vowel
+        function isVowel(letter, name, index) {
+            if (baseVowels.includes(letter)) {
+                return true;
+            }
+            if (letter === 'Y') {
+                return isYVowel(name, index);
+            }
+            return false;
+        }
+
+        // Reduce number to single digit or master number
+        function reduceToSingleDigit(num) {
+            // Handle master numbers (11, 22, 33)
+            if (num === 11 || num === 22 || num === 33) {
+                return num;
+            }
+
+            while (num > 9) {
+                let sum = 0;
+                while (num > 0) {
+                    sum += num % 10;
+                    num = Math.floor(num / 10);
+                }
+                num = sum;
+
+                // Check for master numbers after calculation
+                if (num === 11 || num === 22 || num === 33) {
+                    return num;
+                }
+            }
+            return num;
+        }
+
+        // Get reduction steps for display
+        function getReductionSteps(num) {
+            if (num === 11 || num === 22 || num === 33 || num <= 9) {
+                return `${num} (không cần rút gọn)`;
+            }
+
+            let steps = [];
+            let current = num;
+
+            while (current > 9) {
+                if (current === 11 || current === 22 || current === 33) {
+                    steps.push(`${current} (Master Number)`);
+                    break;
+                }
+
+                let digits = current.toString().split('').map(Number);
+                let sum = digits.reduce((a, b) => a + b, 0);
+                steps.push(`${current} → ${digits.join(' + ')} = ${sum}`);
+                current = sum;
+            }
+
+            return steps.join(' → ');
+        }
+
+        // Get letter breakdown for name analysis
+        function getLetterBreakdown(name, type) {
+            const normalizedName = normalizeVietnamese(name);
+            const cleanName = normalizedName.replace(/[^A-Za-z]/g, '').toUpperCase();
+
+            let breakdown = [];
+            let sum = 0;
+
+            for (let i = 0; i < cleanName.length; i++) {
+                const letter = cleanName[i];
+                const value = getLetterValue(letter);
+                let include = false;
+
+                if (type === 'all') {
+                    include = true;
+                } else if (type === 'vowel') {
+                    include = isVowel(letter, cleanName, i);
+                } else if (type === 'consonant') {
+                    include = !isVowel(letter, cleanName, i);
+                }
+
+                if (include) {
+                    breakdown.push(`${letter}(${value})`);
+                    sum += value;
+                }
+            }
+
+            return {
+                letters: breakdown.join(' + '),
+                calculation: `${breakdown.join(' + ')} = ${sum}`,
+                sum: sum,
+            };
+        }
+
+        // Calculate Life Path Number
+        function calculateLifePathNumber(birthDate) {
+            const date = new Date(birthDate);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            const sum = day + month + year;
+            const result = reduceToSingleDigit(sum);
+
+            // Save calculation details
+            calculationSteps.lifePathSteps = {
+                input: `${day}/${month}/${year}`,
+                calculation: `${day} + ${month} + ${year} = ${sum}`,
+                reduction: getReductionSteps(sum),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Calculate Destiny Number
+        function calculateDestinyNumber(fullName) {
+            const breakdown = getLetterBreakdown(fullName, 'all');
+            const result = reduceToSingleDigit(breakdown.sum);
+
+            // Save calculation details
+            calculationSteps.destinySteps = {
+                input: `"${fullName}"`,
+                letters: breakdown.letters,
+                calculation: breakdown.calculation,
+                reduction: getReductionSteps(breakdown.sum),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Calculate Soul Urge Number
+        function calculateSoulUrgeNumber(fullName) {
+            const breakdown = getLetterBreakdown(fullName, 'vowel');
+            const result = reduceToSingleDigit(breakdown.sum);
+
+            // Save calculation details
+            calculationSteps.soulUrgeSteps = {
+                input: `"${fullName}" (chỉ nguyên âm)`,
+                letters: breakdown.letters,
+                calculation: breakdown.calculation,
+                reduction: getReductionSteps(breakdown.sum),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Calculate Personality Number
+        function calculatePersonalityNumber(fullName) {
+            const breakdown = getLetterBreakdown(fullName, 'consonant');
+            const result = reduceToSingleDigit(breakdown.sum);
+
+            // Save calculation details
+            calculationSteps.personalitySteps = {
+                input: `"${fullName}" (chỉ phụ âm)`,
+                letters: breakdown.letters,
+                calculation: breakdown.calculation,
+                reduction: getReductionSteps(breakdown.sum),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Calculate Birthday Number
+        function calculateBirthdayNumber(birthDate) {
+            const date = new Date(birthDate);
+            const day = date.getDate();
+            const result = reduceToSingleDigit(day);
+
+            // Save calculation details
+            calculationSteps.birthdaySteps = {
+                input: `Ngày sinh: ${day}`,
+                calculation: `Số Ngày Sinh = ${day}`,
+                reduction: getReductionSteps(day),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Calculate Attitude Number
+        function calculateAttitudeNumber(birthDate) {
+            const date = new Date(birthDate);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+
+            const sum = day + month;
+            const result = reduceToSingleDigit(sum);
+
+            // Save calculation details
+            calculationSteps.attitudeSteps = {
+                input: `${day}/${month}`,
+                calculation: `${day} + ${month} = ${sum}`,
+                reduction: getReductionSteps(sum),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Calculate Maturity Number
+        function calculateMaturityNumber(lifePathNumber, destinyNumber) {
+            const sum = lifePathNumber + destinyNumber;
+            const result = reduceToSingleDigit(sum);
+
+            // Save calculation details
+            calculationSteps.maturitySteps = {
+                input: `Life Path: ${lifePathNumber}, Destiny: ${destinyNumber}`,
+                calculation: `${lifePathNumber} + ${destinyNumber} = ${sum}`,
+                reduction: getReductionSteps(sum),
+                result: result,
+            };
+
+            return result;
+        }
+
+        // Display calculation results in the UI
+        function displayResults(data) {
+            // Display main numbers
+            document.getElementById('lifePathNumber').textContent = data.lifePathNumber;
+            document.getElementById('destinyNumber').textContent = data.destinyNumber;
+            document.getElementById('soulUrgeNumber').textContent = data.soulUrgeNumber;
+            document.getElementById('personalityNumber').textContent = data.personalityNumber;
+            document.getElementById('birthdayNumber').textContent = data.birthdayNumber;
+            document.getElementById('attitudeNumber').textContent = data.attitudeNumber;
+            document.getElementById('maturityNumber').textContent = data.maturityNumber;
+
+            // Get full calculation details for each number  
+            const steps = calculationSteps || {};
+            
+            // Life Path
+            const lifePathDetails = steps.lifePathSteps ? 
+                `${steps.lifePathSteps.input} → ${steps.lifePathSteps.calculation} → ${steps.lifePathSteps.reduction}` : '';
+            document.getElementById('lifePathMini').textContent = lifePathDetails;
+            
+            // Destiny 
+            const destinyDetails = steps.destinySteps ?
+                `${steps.destinySteps.letters} = ${steps.destinySteps.calculation.split(' = ')[1]} → ${steps.destinySteps.reduction}` : '';
+            document.getElementById('destinyMini').textContent = destinyDetails;
+            
+            // Soul Urge
+            const soulUrgeDetails = steps.soulUrgeSteps ?
+                `${steps.soulUrgeSteps.letters} = ${steps.soulUrgeSteps.calculation.split(' = ')[1]} → ${steps.soulUrgeSteps.reduction}` : '';
+            document.getElementById('soulUrgeMini').textContent = soulUrgeDetails;
+            
+            // Personality
+            const personalityDetails = steps.personalitySteps ?
+                `${steps.personalitySteps.letters} = ${steps.personalitySteps.calculation.split(' = ')[1]} → ${steps.personalitySteps.reduction}` : '';
+            document.getElementById('personalityMini').textContent = personalityDetails;
+            
+            // Birthday
+            const birthdayDetails = steps.birthdaySteps ?
+                `${steps.birthdaySteps.calculation} → ${steps.birthdaySteps.reduction}` : '';
+            document.getElementById('birthdayMini').textContent = birthdayDetails;
+            
+            // Attitude
+            const attitudeDetails = steps.attitudeSteps ?
+                `${steps.attitudeSteps.input} → ${steps.attitudeSteps.calculation} → ${steps.attitudeSteps.reduction}` : '';
+            document.getElementById('attitudeMini').textContent = attitudeDetails;
+            
+            // Maturity
+            const maturityDetails = steps.maturitySteps ?
+                `${steps.maturitySteps.calculation} → ${steps.maturitySteps.reduction}` : '';
+            document.getElementById('maturityMini').textContent = maturityDetails;
+
+            // Show results section
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            
+            // Enable PDF export button
+            const exportBtn = document.getElementById('exportBtn');
+            if (exportBtn) {
+                exportBtn.disabled = false;
+            }
+        }
+
+        // Helper function to get detailed number info for PDF
+        function getNumberDetails(number, type) {
+            const details = numberDetails[number];
+            if (!details) {
+                return {
+                    meaning: `Ý nghĩa số ${number}`,
+                    positive: 'Đặc điểm tích cực',
+                    negative: 'Điểm cần cân bằng',
+                };
+            }
+
+            // Map type to corresponding property
+            const typeMapping = {
+                lifePath: 'lifePath',
+                destiny: 'destiny',
+                soul: 'soul',
+                personality: 'personality',
+                attitude: 'attitude',
+                birthday: 'birthday',
+                maturity: 'maturity',
+            };
+
+            const mappedType = typeMapping[type] || 'lifePath';
+            const data = details[mappedType];
+
+            return {
+                meaning: data?.meaning || `Ý nghĩa số ${number}`,
+                positive: data?.positive || 'Đặc điểm tích cực',
+                negative: data?.negative || 'Điểm cần cân bằng',
+            };
+        }
+
+        // Create PDF page content
+        function createPage1Content() {
+            const page1Content = document.createElement('div');
+            page1Content.style.cssText = `
+                width: 210mm;
+                padding: 20px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: white;
+                color: black;
+                font-size: 14px;
+                line-height: 1.5;
+            `;
+
+            page1Content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; border-bottom: 2px solid #667eea; padding-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <h1 style="color: #667eea; font-size: 24px; margin: 0 0 10px 0;">BÁO CÁO THẦN SỐ HỌC</h1>
+                        <p style="color: #666; font-style: italic; margin: 0;">Khám phá bản thân thông qua sức mạnh của con số</p>
+                    </div>
+                    <div style="text-align: right; font-size: 13px; color: #666;">
+                        <div style="margin-bottom: 5px;">
+                            📞 <strong>0782 793 153</strong> (Thu Hà)
+                        </div>
+                        <div>
+                            https://www.facebook.com/profile.php?id=61554327784251
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                    <h3 style="color: #333; margin-bottom: 15px;">THÔNG TIN CÁ NHÂN</h3>
+                    <p><strong>Họ và tên:</strong> ${calculatedData.fullName}</p>
+                    <p><strong>Ngày sinh:</strong> ${new Date(calculatedData.birthDate).toLocaleDateString('vi-VN')}</p>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">🌟 SỐ ĐƯỜNG ĐỜI (LIFE PATH NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.lifePathNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${getNumberDetails(calculatedData.lifePathNumber, 'lifePath').meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${getNumberDetails(calculatedData.lifePathNumber, 'lifePath').positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${getNumberDetails(calculatedData.lifePathNumber, 'lifePath').negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">🎯 SỐ ĐỊNH MỆNH (DESTINY NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.destinyNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${getNumberDetails(calculatedData.destinyNumber, 'destiny').meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${getNumberDetails(calculatedData.destinyNumber, 'destiny').positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${getNumberDetails(calculatedData.destinyNumber, 'destiny').negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #feca57, #ff9ff3); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">💖 SỐ KHÁT KHAO TÂM HỒN (SOUL URGE NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.soulUrgeNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${getNumberDetails(calculatedData.soulUrgeNumber, 'soul').meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${getNumberDetails(calculatedData.soulUrgeNumber, 'soul').positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${getNumberDetails(calculatedData.soulUrgeNumber, 'soul').negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-style: italic;">
+                    <p>Báo cáo này được tạo bởi Trang Web Thần Số Học</p>
+                    <p style="font-size: 12px; margin-top: 10px;">"Con số không chỉ là ký hiệu, mà còn là chìa khóa mở ra những bí mật của cuộc sống"</p>
+                </div>
+            `;
+
+            return page1Content;
+        }
+
+        function createPage2Content() {
+            const page2Content = document.createElement('div');
+            page2Content.style.cssText = `
+                width: 210mm;
+                padding: 20px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: white;
+                color: black;
+                font-size: 14px;
+                line-height: 1.5;
+            `;
+
+            const personalityDetails = getNumberDetails(calculatedData.personalityNumber, 'personality');
+            const birthdayDetails = getNumberDetails(calculatedData.birthdayNumber, 'birthday');
+            const attitudeDetails = getNumberDetails(calculatedData.attitudeNumber, 'attitude');
+            const maturityDetails = getNumberDetails(calculatedData.maturityNumber, 'maturity');
+
+            page2Content.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; border-bottom: 2px solid #667eea; padding-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <h1 style="color: #667eea; font-size: 24px; margin: 0 0 10px 0;">BÁO CÁO THẦN SỐ HỌC</h1>
+                        <p style="color: #666; font-style: italic; margin: 0;">Chi tiết các con số bổ sung</p>
+                    </div>
+                    <div style="text-align: right; font-size: 13px; color: #666;">
+                        <div style="margin-bottom: 5px;">
+                            📞 <strong>0782 793 153</strong> (Thu Hà)
+                        </div>
+                        <div>
+                            https://www.facebook.com/profile.php?id=61554327784251
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #48c6ef, #6f86d6); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">🎭 SỐ NHÂN CÁCH (PERSONALITY NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.personalityNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${personalityDetails.meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${personalityDetails.positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${personalityDetails.negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #ff9a56, #ffad56); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">🎂 SỐ NGÀY SINH (BIRTHDAY NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.birthdayNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${birthdayDetails.meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${birthdayDetails.positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${birthdayDetails.negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #a8e6cf, #7fcdcd); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">🌱 SỐ THÁI ĐỘ (ATTITUDE NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.attitudeNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${attitudeDetails.meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${attitudeDetails.positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${attitudeDetails.negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #ff6b9d, #c44569); border-radius: 15px; color: white;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                        <h3 style="margin: 0; flex: 1;">🌸 SỐ TRƯỞNG THÀNH (MATURITY NUMBER)</h3>
+                        <div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.maturityNumber}</div>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
+                        <p style="text-align: justify; font-size: 13px;">${maturityDetails.meaning}</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; margin-right: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Cân bằng:</h4>
+                            <p style="font-size: 12px;">${maturityDetails.positive}</p>
+                        </div>
+                        <div style="flex: 1; margin-left: 10px;">
+                            <h4 style="color: #fff; margin-bottom: 8px;">Lệch:</h4>
+                            <p style="font-size: 12px;">${maturityDetails.negative}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-style: italic;">
+                    <p>Báo cáo này được tạo bởi Trang Web Thần Số Học</p>
+                    <p style="font-size: 12px; margin-top: 10px;">"Con số không chỉ là ký hiệu, mà còn là chìa khóa mở ra những bí mật của cuộc sống"</p>
+                </div>
+            `;
+
+            return page2Content;
+        }
+
+        // Main PDF export function
+        async function exportToPDF() {
+            if (!calculatedData.fullName) {
+                alert('Vui lòng tính toán thần số học trước khi xuất PDF!');
+                return;
+            }
+
+            // Create page contents
+            const page1Content = createPage1Content();
+            const page2Content = createPage2Content();
+
+            // Hide formula section during export (if exists)
+            const formulaSection = document.getElementById('formulaSection');
+            const originalDisplay = formulaSection ? formulaSection.style.display : null;
+            if (formulaSection) {
+                formulaSection.style.display = 'none';
+            }
+
+            // Temporarily add pages to body for rendering
+            document.body.appendChild(page1Content);
+            document.body.appendChild(page2Content);
+
+            try {
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Render page 1
+                const canvas1 = await html2canvas(page1Content, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                });
+
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 295; // A4 height in mm
+                const imgHeight1 = (canvas1.height * imgWidth) / canvas1.width;
+
+                // Add page 1
+                pdf.addImage(
+                    canvas1.toDataURL('image/png'),
+                    'PNG',
+                    0,
+                    0,
+                    imgWidth,
+                    Math.min(imgHeight1, pageHeight),
+                );
+
+                // Render page 2
+                const canvas2 = await html2canvas(page2Content, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                });
+
+                const imgHeight2 = (canvas2.height * imgWidth) / canvas2.width;
+
+                // Add page 2
+                pdf.addPage();
+                pdf.addImage(
+                    canvas2.toDataURL('image/png'),
+                    'PNG',
+                    0,
+                    0,
+                    imgWidth,
+                    Math.min(imgHeight2, pageHeight),
+                );
+
+                // Save PDF file
+                const birthDate = new Date(calculatedData.birthDate);
+                const birthYear = birthDate.getFullYear();
+                const birthMonth = String(birthDate.getMonth() + 1).padStart(2, '0');
+                const birthDay = String(birthDate.getDate()).padStart(2, '0');
+
+                // Remove Vietnamese accents and convert to lowercase
+                const cleanName = calculatedData.fullName
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+                    .replace(/đ/g, 'd') // Replace đ with d
+                    .replace(/\s+/g, '_')
+                    .replace(/[^a-z0-9_]/g, ''); // Remove any remaining special characters
+
+                const fileName = `${cleanName}-${birthDay}-${birthMonth}-${birthYear}.pdf`;
+                pdf.save(fileName);
+            } catch (error) {
+                console.error('Lỗi khi tạo PDF:', error);
+                alert('Có lỗi xảy ra khi tạo PDF. Vui lòng thử lại!');
+            } finally {
+                // Clean up: remove temporary elements and restore formula section
+                document.body.removeChild(page1Content);
+                document.body.removeChild(page2Content);
+                if (formulaSection && originalDisplay !== null) {
+                    formulaSection.style.display = originalDisplay;
+                }
+            }
+        }
+
+        // Form submission handler
+        function handleFormSubmission() {
+            document.getElementById('numerologyForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const fullName = document.getElementById('fullName').value.trim();
+                const birthDate = document.getElementById('birthDate').value;
+
+                if (!fullName || !birthDate) {
+                    alert('Vui lòng nhập đầy đủ thông tin!');
+                    return;
+                }
+
+                // Reset calculationSteps
+                calculationSteps = {};
+
+                // Calculate all numerology numbers
+                const lifePathNumber = calculateLifePathNumber(birthDate);
+                const destinyNumber = calculateDestinyNumber(fullName);
+                const soulUrgeNumber = calculateSoulUrgeNumber(fullName);
+                const personalityNumber = calculatePersonalityNumber(fullName);
+                const birthdayNumber = calculateBirthdayNumber(birthDate);
+                const attitudeNumber = calculateAttitudeNumber(birthDate);
+                const maturityNumber = calculateMaturityNumber(lifePathNumber, destinyNumber);
+
+                // Store calculated data globally
+                calculatedData = {
+                    fullName,
+                    birthDate,
+                    lifePathNumber,
+                    destinyNumber,
+                    soulUrgeNumber,
+                    personalityNumber,
+                    birthdayNumber,
+                    attitudeNumber,
+                    maturityNumber,
+                };
+
+                // Display results
+                displayResults(calculatedData);
+            });
+        }
+
+        // Add input focus effects
+        function addInputEffects() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 5px 15px rgba(102, 126, 234, 0.2)';
+                });
+
+                input.addEventListener('blur', function () {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            handleFormSubmission();
+            addInputEffects();
+        });
+    </script>
+</body>
+</html>
