@@ -226,7 +226,240 @@ const numberDetails = {
 			negative: "Chỉ 'nói cho vui', thiếu tầm ảnh hưởng.",
 		},
 	},
-	// Giữ nguyên các số 4 → 10, 22, 33 vì không có lỗi chính tả
+	4: {
+		lifePath: {
+			meaning:
+				'Con đường học kỷ luật – xây nền tảng – làm việc kiên trì.',
+			positive: 'Tận tâm, có kế hoạch, xây dựng từng bước vững chắc.',
+			negative: 'Cứng nhắc, sợ thay đổi, quá cầu toàn.',
+		},
+		destiny: {
+			meaning:
+				'Mục đích sống: tạo cấu trúc & hệ thống bền vững cho người khác.',
+			positive: 'Xây dựng nền tảng vững chắc, tạo ra trật tự.',
+			negative: 'Quá khắt khe, thiếu linh hoạt.',
+		},
+		soul: {
+			meaning: 'Mong muốn sâu thẳm: được an toàn, ổn định và có trật tự.',
+			positive: 'Bình an khi mọi thứ được tổ chức tốt.',
+			negative: 'Lo âu khi thiếu kiểm soát, sợ hỗn loạn.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: thực tế, đáng tin cậy, có tổ chức.',
+			positive: 'Tạo cảm giác an toàn, đáng tin cậy.',
+			negative: 'Cứng nhắc, thiếu sự linh hoạt.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: thận trọng, có phương pháp.',
+			positive: 'Tạo ra kết quả bền vững, chất lượng.',
+			negative: 'Chậm chạp, thiếu sự sáng tạo.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: kiên nhẫn, chăm chỉ, có kỷ luật.',
+			positive: 'Hoàn thành công việc từ đầu đến cuối.',
+			negative: 'Quá cầu toàn, khó thích ứng.',
+		},
+		maturity: {
+			meaning: 'Đỉnh cao: người xây dựng, tạo ra hệ thống bền vững.',
+			positive: 'Để lại di sản vững chắc, được tôn trọng.',
+			negative: 'Bảo thủ quá mức, cản trở sự phát triển.',
+		},
+	},
+	5: {
+		lifePath: {
+			meaning: 'Con đường học tự do – linh hoạt – thích nghi – đổi mới.',
+			positive: 'Linh hoạt, thích khám phá, tạo ra sự đa dạng.',
+			negative: 'Thiếu kiên trì, tránh trách nhiệm, bốc đồng.',
+		},
+		destiny: {
+			meaning: 'Mục đích sống: lan tỏa tinh thần tự do & đổi mới.',
+			positive: 'Mang lại sự thay đổi tích cực, mở rộng tầm nhìn.',
+			negative: 'Thay đổi vô mục đích, gây bất ổn.',
+		},
+		soul: {
+			meaning: 'Mong muốn sâu thẳm: được tự do, khám phá, trải nghiệm.',
+			positive: 'Hạnh phúc khi được du lịch, học hỏi điều mới.',
+			negative: 'Bồn chồn khi bị ràng buộc, dễ nhàm chán.',
+		},
+		personality: {
+			meaning:
+				'Biểu hiện ra ngoài: năng động, thú vị, không thể đoán trước.',
+			positive: 'Tạo sự hứng thú, mang lại năng lượng mới.',
+			negative: 'Thiếu ổn định, khó dự đoán.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: linh hoạt, thích thử nghiệm.',
+			positive: 'Thích ứng nhanh với thay đổi.',
+			negative: 'Thiếu tập trung, dễ bỏ cuộc giữa chừng.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: tự do, phiêu lưu, hiếu kỳ.',
+			positive: 'Học hỏi nhanh, thích ứng tốt.',
+			negative: 'Không kiên trì, dễ phân tâm.',
+		},
+		maturity: {
+			meaning: 'Đỉnh cao: người mang lại tự do và đổi mới.',
+			positive: 'Trở thành catalyst cho sự thay đổi tích cực.',
+			negative: 'Thay đổi vô định hướng, gây mất ổn định.',
+		},
+	},
+	6: {
+		lifePath: {
+			meaning: 'Con đường học trách nhiệm – yêu thương – kiến tạo tổ ấm.',
+			positive: 'Chăm sóc, bảo vệ, tạo ra môi trường ấm áp.',
+			negative: 'Can thiệp quá mức, hy sinh bản thân.',
+		},
+		destiny: {
+			meaning:
+				'Mục đích sống: xây nền tảng tình thương & trách nhiệm cho cộng đồng.',
+			positive: 'Chữa lành, nuôi dưỡng, tạo ra sự hòa hợp.',
+			negative: 'Kiểm soát quá mức, áp đặt tình yêu.',
+		},
+		soul: {
+			meaning:
+				'Mong muốn sâu thẳm: được yêu thương và chăm sóc người khác.',
+			positive: 'Hạnh phúc khi gia đình hòa thuận, mọi người hạnh phúc.',
+			negative: 'Đau khổ khi không được đánh giá cao.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: ấm áp, quan tâm, bảo vệ.',
+			positive: 'Tạo cảm giác an toàn, được yêu thương.',
+			negative: 'Can thiệp quá mức, tạo áp lực.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: chăm sóc, có trách nhiệm.',
+			positive: 'Đặt nhu cầu người khác lên trước.',
+			negative: 'Quên mất nhu cầu bản thân.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: yêu thương, chăm sóc, có trách nhiệm.',
+			positive: 'Tạo ra môi trường hỗ trợ, nuôi dưỡng.',
+			negative: 'Hy sinh quá mức, kiệt sức.',
+		},
+		maturity: {
+			meaning: 'Đỉnh cao: người chữa lành, cố vấn gia đình và cộng đồng.',
+			positive: 'Trở thành trụ cột tinh thần, được kính trọng.',
+			negative: 'Kiểm soát quá mức, tạo ra phụ thuộc.',
+		},
+	},
+	7: {
+		lifePath: {
+			meaning: 'Con đường tìm chân lý – sự thật – trí tuệ tâm linh.',
+			positive:
+				'Suy ngẫm sâu sắc, tìm kiếm ý nghĩa, phát triển trực giác.',
+			negative: 'Cô lập, hoài nghi quá mức, trốn tránh thực tế.',
+		},
+		destiny: {
+			meaning:
+				'Mục đích: mang tri thức & minh triết để khai sáng cộng đồng.',
+			positive: 'Chia sẻ kiến thức, dẫn dắt tâm linh.',
+			negative: 'Giữ kiến thức cho riêng mình, kiêu ngạo.',
+		},
+		soul: {
+			meaning:
+				'Mong muốn sâu thẳm: hiểu biết sự thật, tìm ý nghĩa cuộc sống.',
+			positive: 'Hạnh phúc khi khám phá được bí ẩn, hiểu sâu sắc.',
+			negative: 'Cô đơn khi không ai hiểu mình.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: bí ẩn, sâu sắc, trầm tĩnh.',
+			positive: 'Tạo ấn tượng về sự thông thái, đáng tin cậy.',
+			negative: 'Khó tiếp cận, xa cách.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: phân tích, nghiên cứu, tìm hiểu.',
+			positive: 'Nhìn sâu vào bản chất vấn đề.',
+			negative: 'Phân tích quá mức, chậm hành động.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: tìm tòi, nghiên cứu, trực giác.',
+			positive: 'Khám phá những điều ẩn giấu, hiểu sâu.',
+			negative: 'Cô lập bản thân, nghi ngờ người khác.',
+		},
+		maturity: {
+			meaning: 'Đỉnh cao: nhà hiền triết, thầy tâm linh, nhà nghiên cứu.',
+			positive: 'Trở thành nguồn trí tuệ, được tôn kính.',
+			negative: 'Sống trong tháp ngà, xa rời thực tế.',
+		},
+	},
+	8: {
+		lifePath: {
+			meaning: 'Con đường học quản trị – quyền lực – trách nhiệm xã hội.',
+			positive: 'Lãnh đạo hiệu quả, tạo ra thành công bền vững.',
+			negative: 'Ham quyền lực, coi thường người khác.',
+		},
+		destiny: {
+			meaning: 'Mục đích: xây dựng thành công & ảnh hưởng thực tế.',
+			positive: 'Tạo ra giá trị vật chất, công việc cho cộng đồng.',
+			negative: 'Chỉ quan tâm đến lợi nhuận, bỏ qua con người.',
+		},
+		soul: {
+			meaning:
+				'Mong muốn sâu thẳm: được công nhận, thành công, có ảnh hưởng.',
+			positive: 'Hạnh phúc khi đạt được mục tiêu lớn.',
+			negative: 'Căng thẳng khi thất bại, sợ mất kiểm soát.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: mạnh mẽ, quyền lực, chuyên nghiệp.',
+			positive: 'Tạo ấn tượng về năng lực và uy quyền.',
+			negative: 'Gây áp lực, khó gần.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: quyết đoán, tham vọng, thực tế.',
+			positive: 'Biến ý tưởng thành hiện thực.',
+			negative: 'Quá tập trung vào kết quả, bỏ qua quá trình.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: tham vọng, khả năng tổ chức, lãnh đạo.',
+			positive: 'Quản lý tốt, đạt được mục tiêu.',
+			negative: 'Áp lực thành công, bỏ qua cân bằng cuộc sống.',
+		},
+		maturity: {
+			meaning:
+				'Đỉnh cao: lãnh đạo doanh nghiệp, người có ảnh hưởng xã hội.',
+			positive: 'Để lại di sản kinh doanh, tạo công ăn việc làm.',
+			negative: 'Quyền lực mù quáng, tham lam.',
+		},
+	},
+	9: {
+		lifePath: {
+			meaning: 'Con đường học phụng sự – nhân văn – trí tuệ.',
+			positive: 'Bao dung, cống hiến, nhìn xa trông rộng.',
+			negative: 'Hy sinh quá mức, lý tưởng hóa, dễ thất vọng.',
+		},
+		destiny: {
+			meaning:
+				'Mục đích: dùng trí tuệ & lòng nhân ái để nâng cao cộng đồng.',
+			positive: 'Làm việc vì lợi ích chung, truyền cảm hứng.',
+			negative: 'Áp đặt lý tưởng, phán xét người khác.',
+		},
+		soul: {
+			meaning:
+				'Mong muốn sâu thẳm: cống hiến cho nhân loại, tạo ra ý nghĩa.',
+			positive: 'Hạnh phúc khi giúp đỡ được nhiều người.',
+			negative: 'Thất vọng khi thế giới không như mong đợi.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: từ bi, hiểu biết, bao dung.',
+			positive: 'Tạo cảm giác được chấp nhận, hiểu.',
+			negative: 'Có thể bị coi là xa cách, lý thuyết suông.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: nhân văn, toàn cầu, lý tưởng.',
+			positive: 'Nhìn được bức tranh lớn, tìm giải pháp bền vững.',
+			negative: 'Thiếu thực tế, khó áp dụng trong cuộc sống.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: nhân đạo, trí tuệ, lòng từ bi.',
+			positive: 'Hiểu được nhu cầu của cộng đồng.',
+			negative: 'Quá lý tưởng, không thực tế.',
+		},
+		maturity: {
+			meaning: 'Đỉnh cao: nhà giáo dục, nhà từ thiện, lãnh đạo tâm linh.',
+			positive: 'Trở thành ánh sáng dẫn đường cho nhiều người.',
+			negative: 'Kiệt sức vì cống hiến quá mức.',
+		},
+	},
 	11: {
 		lifePath: {
 			meaning:
@@ -268,6 +501,86 @@ const numberDetails = {
 				'Đỉnh cao: người thắp sáng cộng đồng, để lại di sản tâm linh – trí tuệ.',
 			positive: 'Được kính trọng như nhà tiên tri, thầy lớn.',
 			negative: 'Ảo tưởng vĩ đại, xa rời thực tế.',
+		},
+	},
+	22: {
+		lifePath: {
+			meaning:
+				'Con đường học kiến tạo bền vững – hệ thống hóa tầm nhìn lớn.',
+			positive:
+				'Xây dựng những công trình vĩ đại, tạo ra hệ thống bền vững.',
+			negative: 'Áp lực quá lớn, hoang tưởng về quy mô.',
+		},
+		destiny: {
+			meaning:
+				'Mục đích: xây dựng công trình/hệ thống lớn cho nhân loại.',
+			positive: 'Tạo ra di sản bền vững cho thế giới.',
+			negative: 'Tham vọng quá lớn, không thực tế.',
+		},
+		soul: {
+			meaning:
+				'Mong muốn sâu thẳm: tạo ra những thay đổi có tầm ảnh hưởng lớn.',
+			positive: 'Hạnh phúc khi nhìn thấy tác động tích cực rộng lớn.',
+			negative: 'Thất vọng khi không đạt được mục tiêu vĩ đại.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: có tầm nhìn, thực tế, quyền lực.',
+			positive: 'Tạo ấn tượng về khả năng thực hiện điều lớn lao.',
+			negative: 'Gây áp lực, khó tiếp cận.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: tầm nhìn lớn, thực tế, có hệ thống.',
+			positive: 'Biến tầm nhìn thành hiện thực.',
+			negative: 'Quá tham vọng, bỏ qua chi tiết.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: khả năng xây dựng lớn, tầm nhìn xa.',
+			positive: 'Có thể tạo ra những thành tựu vĩ đại.',
+			negative: 'Áp lực thành công, căng thẳng.',
+		},
+		maturity: {
+			meaning: 'Đỉnh cao: Master Builder, để lại di sản cho nhân loại.',
+			positive: 'Tạo ra những công trình có tầm ảnh hưởng quốc tế.',
+			negative: 'Kiệt sức vì tham vọng quá lớn.',
+		},
+	},
+	33: {
+		lifePath: {
+			meaning: 'Con đường học tình yêu phụng sự & trách nhiệm cộng đồng.',
+			positive: 'Yêu thương vô điều kiện, chữa lành cộng đồng.',
+			negative: 'Hy sinh quá mức, kiệt sức vì tình yêu.',
+		},
+		destiny: {
+			meaning:
+				'Mục đích: lan tỏa tình yêu, chữa lành, trở thành thầy/cô giáo tình thần.',
+			positive: 'Chữa lành tâm hồn, dạy về tình yêu.',
+			negative: 'Áp đặt tình yêu, can thiệp quá mức.',
+		},
+		soul: {
+			meaning: 'Mong muốn sâu thẳm: yêu thương và chữa lành mọi người.',
+			positive: 'Hạnh phúc khi mọi người được chữa lành.',
+			negative: 'Đau khổ khi không thể giúp được ai.',
+		},
+		personality: {
+			meaning: 'Biểu hiện ra ngoài: từ bi, chữa lành, yêu thương.',
+			positive: 'Tạo cảm giác an toàn, được yêu thương vô điều kiện.',
+			negative: 'Có thể tạo áp lực về tình yêu.',
+		},
+		attitude: {
+			meaning: 'Cách tiếp cận: tình yêu, từ bi, chữa lành.',
+			positive: 'Mang lại sự chữa lành cho mọi người.',
+			negative: 'Quên mất bản thân, kiệt sức.',
+		},
+		birthday: {
+			meaning: 'Tố chất bẩm sinh: yêu thương, chữa lành, giáo dục.',
+			positive: 'Có khả năng chữa lành mạnh mẽ.',
+			negative: 'Quá nhạy cảm, dễ bị tổn thương.',
+		},
+		maturity: {
+			meaning:
+				'Đỉnh cao: Master Teacher của tình yêu, chữa lành toàn cầu.',
+			positive: 'Trở thành biểu tượng của tình yêu và từ bi.',
+			negative: 'Kiệt sức vì cống hiến quá mức cho tình yêu.',
 		},
 	},
 };
