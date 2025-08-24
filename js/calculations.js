@@ -211,13 +211,13 @@ function calculatePersonalityNumber(fullName) {
 function calculateBirthdayNumber(birthDate) {
 	const date = new Date(birthDate);
 	const day = date.getDate();
-	const result = day;
+	const result = reduceToSingleDigit(day);
 
 	// Save calculation details
 	calculationSteps.birthdaySteps = {
 		input: `Ngày sinh: ${day}`,
 		calculation: `Số Ngày Sinh = ${day}`,
-		reduction: 'Không cần rút gọn',
+		reduction: getReductionSteps(day),
 		result: result,
 	};
 	

@@ -28,6 +28,7 @@
 						<input
 							type="text"
 							id="fullName"
+							value="Phạm Thị Thu Hà"
 							placeholder="VD: Nguyễn Văn An"
 							required
 						/>
@@ -38,6 +39,7 @@
 						<input
 							type="date"
 							id="birthDate"
+							value="1993-04-12"
 							required
 						/>
 					</div>
@@ -69,10 +71,7 @@
 							class="number"
 							id="lifePathNumber"
 						></div>
-						<div
-							class="description"
-							id="lifePathDescription"
-						></div>
+						<div class="mini-description" id="lifePathMini"></div>
 					</div>
 
 					<div
@@ -90,10 +89,7 @@
 							class="number"
 							id="destinyNumber"
 						></div>
-						<div
-							class="description"
-							id="destinyDescription"
-						></div>
+						<div class="mini-description" id="destinyMini"></div>
 					</div>
 
 					<div
@@ -111,10 +107,7 @@
 							class="number"
 							id="soulUrgeNumber"
 						></div>
-						<div
-							class="description"
-							id="soulUrgeDescription"
-						></div>
+						<div class="mini-description" id="soulUrgeMini"></div>
 					</div>
 
 					<div
@@ -132,10 +125,7 @@
 							class="number"
 							id="personalityNumber"
 						></div>
-						<div
-							class="description"
-							id="personalityDescription"
-						></div>
+						<div class="mini-description" id="personalityMini"></div>
 					</div>
 
 					<div
@@ -153,10 +143,7 @@
 							class="number"
 							id="birthdayNumber"
 						></div>
-						<div
-							class="description"
-							id="birthdayDescription"
-						></div>
+						<div class="mini-description" id="birthdayMini"></div>
 					</div>
 
 					<div
@@ -174,10 +161,7 @@
 							class="number"
 							id="attitudeNumber"
 						></div>
-						<div
-							class="description"
-							id="attitudeDescription"
-						></div>
+						<div class="mini-description" id="attitudeMini"></div>
 					</div>
 
 					<div
@@ -195,10 +179,7 @@
 							class="number"
 							id="maturityNumber"
 						></div>
-						<div
-							class="description"
-							id="maturityDescription"
-						></div>
+						<div class="mini-description" id="maturityMini"></div>
 					</div>
 
 					<button
@@ -208,41 +189,6 @@
 						📄 Xuất PDF
 					</button>
 
-					<!-- Phần công thức tính toán (chỉ hiển thị trên web, không export PDF) -->
-					<div
-						class="formula-section"
-						id="formulaSection"
-						style="
-							display: block;
-							margin-top: 30px;
-							padding: 25px;
-							background: #f8f9fa;
-							border-radius: 15px;
-							border-left: 5px solid #667eea;
-						"
-					>
-						<h3
-							style="
-								color: #667eea;
-								margin-bottom: 20px;
-								display: flex;
-								align-items: center;
-							"
-						>
-							🔢 Chi Tiết Công Thức Tính Toán
-							<span
-								style="
-									margin-left: 10px;
-									font-size: 0.8em;
-									color: #666;
-									font-weight: normal;
-								"
-								>(để kiểm tra)</span
-							>
-						</h3>
-
-						<div id="calculationDetails"></div>
-					</div>
 				</div>
 			</div>
 

@@ -115,6 +115,15 @@ body {
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.mini-description {
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 0.85em;
+	line-height: 1.3;
+	margin-top: 8px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+	text-align: center;
+}
+
 .description {
 	font-size: 1.1em;
 	line-height: 1.6;

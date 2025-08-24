@@ -1,5 +1,4 @@
 // UI Management and DOM interactions
-import { descriptions } from './constants.js';
 import {
 	calculateLifePathNumber,
 	calculateDestinyNumber,
@@ -14,41 +13,56 @@ import {
 function displayResults(data) {
 	// Display main numbers
 	document.getElementById('lifePathNumber').textContent = data.lifePathNumber;
-	document.getElementById('lifePathDescription').textContent =
-		descriptions.lifePathDescriptions[data.lifePathNumber];
-
 	document.getElementById('destinyNumber').textContent = data.destinyNumber;
-	document.getElementById('destinyDescription').textContent =
-		descriptions.destinyDescriptions[data.destinyNumber];
-
 	document.getElementById('soulUrgeNumber').textContent = data.soulUrgeNumber;
-	document.getElementById('soulUrgeDescription').textContent =
-		descriptions.soulUrgeDescriptions[data.soulUrgeNumber];
-
-	document.getElementById('personalityNumber').textContent =
-		data.personalityNumber;
-	document.getElementById('personalityDescription').textContent =
-		descriptions.personalityDescriptions[data.personalityNumber];
-
+	document.getElementById('personalityNumber').textContent = data.personalityNumber;
 	document.getElementById('birthdayNumber').textContent = data.birthdayNumber;
-	document.getElementById('birthdayDescription').textContent =
-		descriptions.birthdayDescriptions[data.birthdayNumber];
-
 	document.getElementById('attitudeNumber').textContent = data.attitudeNumber;
-	document.getElementById('attitudeDescription').textContent =
-		descriptions.attitudeDescriptions[data.attitudeNumber];
-
 	document.getElementById('maturityNumber').textContent = data.maturityNumber;
-	document.getElementById('maturityDescription').textContent =
-		descriptions.maturityDescriptions[data.maturityNumber];
+
+	// Get full calculation details for each number  
+	const steps = window.calculationSteps || {};
+	
+	// Life Path
+	const lifePathDetails = steps.lifePathSteps ? 
+		`${steps.lifePathSteps.input} → ${steps.lifePathSteps.calculation} → ${steps.lifePathSteps.reduction}` : '';
+	document.getElementById('lifePathMini').textContent = lifePathDetails;
+	
+	// Destiny 
+	const destinyDetails = steps.destinySteps ?
+		`${steps.destinySteps.letters} = ${steps.destinySteps.calculation.split(' = ')[1]} → ${steps.destinySteps.reduction}` : '';
+	document.getElementById('destinyMini').textContent = destinyDetails;
+	
+	// Soul Urge
+	const soulUrgeDetails = steps.soulUrgeSteps ?
+		`${steps.soulUrgeSteps.letters} = ${steps.soulUrgeSteps.calculation.split(' = ')[1]} → ${steps.soulUrgeSteps.reduction}` : '';
+	document.getElementById('soulUrgeMini').textContent = soulUrgeDetails;
+	
+	// Personality
+	const personalityDetails = steps.personalitySteps ?
+		`${steps.personalitySteps.letters} = ${steps.personalitySteps.calculation.split(' = ')[1]} → ${steps.personalitySteps.reduction}` : '';
+	document.getElementById('personalityMini').textContent = personalityDetails;
+	
+	// Birthday
+	const birthdayDetails = steps.birthdaySteps ?
+		`${steps.birthdaySteps.calculation} → ${steps.birthdaySteps.reduction}` : '';
+	document.getElementById('birthdayMini').textContent = birthdayDetails;
+	
+	// Attitude
+	const attitudeDetails = steps.attitudeSteps ?
+		`${steps.attitudeSteps.input} → ${steps.attitudeSteps.calculation} → ${steps.attitudeSteps.reduction}` : '';
+	document.getElementById('attitudeMini').textContent = attitudeDetails;
+	
+	// Maturity
+	const maturityDetails = steps.maturitySteps ?
+		`${steps.maturitySteps.calculation} → ${steps.maturitySteps.reduction}` : '';
+	document.getElementById('maturityMini').textContent = maturityDetails;
 
 	// Show results section
 	const resultsDiv = document.getElementById('results');
 	resultsDiv.style.display = 'block';
-
-	// Scroll to results
-	resultsDiv.scrollIntoView({ behavior: 'smooth' });
 }
+
 
 // Display detailed calculation steps
 function displayCalculationDetails() {
@@ -207,15 +221,7 @@ function handleFormSubmission() {
 			// Display results
 			displayResults(window.calculatedData);
 
-			// Display calculation details
-			setTimeout(() => {
-				displayCalculationDetails();
-			}, 100);
 
-			// Scroll to results
-			document
-				.getElementById('results')
-				.scrollIntoView({ behavior: 'smooth' });
 		});
 }
 
