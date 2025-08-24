@@ -44,12 +44,22 @@
 						/>
 					</div>
 
-					<button
-						type="submit"
-						class="calculate-btn"
-					>
-						✨ Tính toán thần số học
-					</button>
+					<div class="button-group">
+						<button
+							type="submit"
+							class="calculate-btn"
+						>
+							✨ Tính toán thần số học
+						</button>
+						
+						<button
+							type="button"
+							class="export-btn"
+							onclick="exportToPDF()"
+						>
+							📄 Xuất PDF
+						</button>
+					</div>
 				</form>
 
 				<div
@@ -182,12 +192,6 @@
 						<div class="mini-description" id="maturityMini"></div>
 					</div>
 
-					<button
-						class="export-btn"
-						onclick="exportToPDF()"
-					>
-						📄 Xuất PDF
-					</button>
 
 				</div>
 			</div>
