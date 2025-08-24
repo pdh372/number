@@ -54,14 +54,11 @@ function createPage1Content() {
 				<p style="color: #666; font-style: italic; margin: 0;">Khám phá bản thân thông qua sức mạnh của con số</p>
 			</div>
 			<div style="text-align: right; font-size: 13px; color: #666;">
-				<div style="margin-bottom: 8px;">
-					<strong>Liên hệ:</strong>
-				</div>
 				<div style="margin-bottom: 5px;">
 					📞 <strong>0782 793 153</strong> (Thu Hà)
 				</div>
 				<div>
-					📘 <a href="https://www.facebook.com/profile.php?id=61554327784251" style="color: #667eea; text-decoration: none;">Facebook Fanpage</a>
+					https://www.facebook.com/profile.php?id=61554327784251
 				</div>
 			</div>
 		</div>
@@ -71,10 +68,8 @@ function createPage1Content() {
 			<p><strong>Họ và tên:</strong> ${calculatedData.fullName}</p>
 			<p><strong>Ngày sinh:</strong> ${new Date(
 				calculatedData.birthDate,
-			).toLocaleDateString('vi-VN')}</p>
-			<p><strong>Ngày tạo báo cáo:</strong> ${new Date().toLocaleDateString(
-				'vi-VN',
-			)}</p>
+			).toLocaleDateString('vi-VN')}
+			</p>
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; color: white;">
@@ -114,10 +109,12 @@ function createPage1Content() {
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 15px; color: white;">
-			<h3 style="margin-bottom: 15px;">🎯 SỐ ĐỊNH MỆNH (DESTINY NUMBER)</h3>
-			<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${
-				calculatedData.destinyNumber
-			}</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+				<h3 style="margin: 0; flex: 1;">🎯 SỐ ĐỊNH MỆNH (DESTINY NUMBER)</h3>
+				<div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${
+					calculatedData.destinyNumber
+				}</div>
+			</div>
 			<div style="margin: 15px 0;">
 				<h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
 				<p style="text-align: justify; font-size: 13px;">${
@@ -148,10 +145,12 @@ function createPage1Content() {
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #feca57, #ff9ff3); border-radius: 15px; color: white;">
-			<h3 style="margin-bottom: 15px;">💖 SỐ KHÁT KHAO TÂM HỒN (SOUL URGE NUMBER)</h3>
-			<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${
-				calculatedData.soulUrgeNumber
-			}</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+				<h3 style="margin: 0; flex: 1;">💖 SỐ KHÁT KHAO TÂM HỒN (SOUL URGE NUMBER)</h3>
+				<div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${
+					calculatedData.soulUrgeNumber
+				}</div>
+			</div>
 			<div style="margin: 15px 0;">
 				<h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
 				<p style="text-align: justify; font-size: 13px;">${
@@ -218,25 +217,24 @@ function createPage2Content() {
 	page2Content.innerHTML = `
 		<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; border-bottom: 2px solid #667eea; padding-bottom: 20px;">
 			<div style="flex: 1;">
-				<h1 style="color: #667eea; font-size: 24px; margin: 0 0 10px 0;">BÁO CÁO THẦN SỐ HỌC - TRANG 2</h1>
+				<h1 style="color: #667eea; font-size: 24px; margin: 0 0 10px 0;">BÁO CÁO THẦN SỐ HỌC</h1>
 				<p style="color: #666; font-style: italic; margin: 0;">Chi tiết các con số bổ sung</p>
 			</div>
 			<div style="text-align: right; font-size: 13px; color: #666;">
-				<div style="margin-bottom: 8px;">
-					<strong>Liên hệ:</strong>
-				</div>
 				<div style="margin-bottom: 5px;">
 					📞 <strong>0782 793 153</strong> (Thu Hà)
 				</div>
 				<div>
-					📘 <a href="https://www.facebook.com/profile.php?id=61554327784251" style="color: #667eea; text-decoration: none;">Facebook Fanpage</a>
+					https://www.facebook.com/profile.php?id=61554327784251
 				</div>
 			</div>
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #48c6ef, #6f86d6); border-radius: 15px; color: white;">
-			<h3 style="margin-bottom: 15px;">🎭 SỐ NHÂN CÁCH (PERSONALITY NUMBER)</h3>
-			<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${calculatedData.personalityNumber}</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+				<h3 style="margin: 0; flex: 1;">🎭 SỐ NHÂN CÁCH (PERSONALITY NUMBER)</h3>
+				<div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.personalityNumber}</div>
+			</div>
 			<div style="margin: 15px 0;">
 				<h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
 				<p style="text-align: justify; font-size: 13px;">${personalityDetails.meaning}</p>
@@ -254,8 +252,10 @@ function createPage2Content() {
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #ff9a56, #ffad56); border-radius: 15px; color: white;">
-			<h3 style="margin-bottom: 15px;">🎂 SỐ NGÀY SINH (BIRTHDAY NUMBER)</h3>
-			<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${calculatedData.birthdayNumber}</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+				<h3 style="margin: 0; flex: 1;">🎂 SỐ NGÀY SINH (BIRTHDAY NUMBER)</h3>
+				<div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.birthdayNumber}</div>
+			</div>
 			<div style="margin: 15px 0;">
 				<h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
 				<p style="text-align: justify; font-size: 13px;">${birthdayDetails.meaning}</p>
@@ -273,8 +273,10 @@ function createPage2Content() {
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #a8e6cf, #7fcdcd); border-radius: 15px; color: white;">
-			<h3 style="margin-bottom: 15px;">🌱 SỐ THÁI ĐỘ (ATTITUDE NUMBER)</h3>
-			<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${calculatedData.attitudeNumber}</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+				<h3 style="margin: 0; flex: 1;">🌱 SỐ THÁI ĐỘ (ATTITUDE NUMBER)</h3>
+				<div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.attitudeNumber}</div>
+			</div>
 			<div style="margin: 15px 0;">
 				<h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
 				<p style="text-align: justify; font-size: 13px;">${attitudeDetails.meaning}</p>
@@ -292,8 +294,10 @@ function createPage2Content() {
 		</div>
 
 		<div style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #ff6b9d, #c44569); border-radius: 15px; color: white;">
-			<h3 style="margin-bottom: 15px;">🌸 SỐ TRƯỞNG THÀNH (MATURITY NUMBER)</h3>
-			<div style="font-size: 36px; font-weight: bold; text-align: center; margin: 20px 0;">${calculatedData.maturityNumber}</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+				<h3 style="margin: 0; flex: 1;">🌸 SỐ TRƯỞNG THÀNH (MATURITY NUMBER)</h3>
+				<div style="font-size: 36px; font-weight: bold; margin-left: 20px;">${calculatedData.maturityNumber}</div>
+			</div>
 			<div style="margin: 15px 0;">
 				<h4 style="color: #fff; margin-bottom: 10px;">Ý nghĩa cốt lõi:</h4>
 				<p style="text-align: justify; font-size: 13px;">${maturityDetails.meaning}</p>
@@ -392,19 +396,21 @@ async function exportToPDF() {
 		);
 
 		// Save PDF file
-		const currentDate = new Date();
-		const currentYear = currentDate.getFullYear();
-		const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
-		const currentDay = String(currentDate.getDate()).padStart(2, '0');
-		
 		const birthDate = new Date(calculatedData.birthDate);
 		const birthYear = birthDate.getFullYear();
 		const birthMonth = String(birthDate.getMonth() + 1).padStart(2, '0');
 		const birthDay = String(birthDate.getDate()).padStart(2, '0');
-		
-		const cleanName = calculatedData.fullName.replace(/\s+/g, '_');
-		
-		const fileName = `${currentYear}${currentMonth}${currentDay}_${cleanName}_${birthDay}${birthMonth}${birthYear}.pdf`;
+
+		// Remove Vietnamese accents and convert to lowercase
+		const cleanName = calculatedData.fullName
+			.toLowerCase()
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+			.replace(/đ/g, 'd') // Replace đ with d
+			.replace(/\s+/g, '_')
+			.replace(/[^a-z0-9_]/g, ''); // Remove any remaining special characters
+
+		const fileName = `${cleanName}-${birthDay}-${birthMonth}-${birthYear}.pdf`;
 		pdf.save(fileName);
 	} catch (error) {
 		console.error('Lỗi khi tạo PDF:', error);

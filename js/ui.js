@@ -61,6 +61,12 @@ function displayResults(data) {
 	// Show results section
 	const resultsDiv = document.getElementById('results');
 	resultsDiv.style.display = 'block';
+	
+	// Enable PDF export button
+	const exportBtn = document.getElementById('exportBtn');
+	if (exportBtn) {
+		exportBtn.disabled = false;
+	}
 }
 
 
